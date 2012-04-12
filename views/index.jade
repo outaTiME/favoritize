@@ -1,0 +1,44 @@
+//-h1= title
+//-p Welcome to #{title}
+
+
+.container
+  .row
+    .span4.offset4(style="text-align: center;")
+      div(style="margin-bottom: 28px; text-align: center;")
+        img(src="/images/splash_logo.png", border="0", alt="Favoritize Logo")
+  .row
+    .span4.offset4(style="text-align: center;")
+      #login
+        .wrapper
+          //
+            .alert.alert-error
+              //-a.close(data-dismiss="alert") x
+              <strong>Oh snap!</strong> Change a few things up and try submitting again.
+          //
+            .alert.alert-info
+              //-a.close(data-dismiss="alert") x
+              <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+
+          .alert.alert-warning
+            a(href="/accounts/password/reset") Forgot your password?
+            &nbsp;·&nbsp;Need an account?
+            a(href="/signup") Sign up
+
+          form(style="padding-left: 10px;")
+            //-label(for="email") Email
+            input#email(name="email", type="text", placeholder="Email", style="margin-left: -10px;")
+            //-label(for="password") Password
+            input#password(name="password", type="password", placeholder="Password", style="margin-left: -10px;")
+
+            .submit
+              //
+                .progress.progress-striped.active
+                  .bar(style="width: 100%")
+                button.btn.btn-primary(type="submit", onclick="$(this).hide();") Sign In
+              button.btn.btn-primary(type="button", onclick="$(this).hide();") Sign In
+
+
+
+  .row
+    .span4.offset4(style="text-align: center;margin-top: 18px;")
