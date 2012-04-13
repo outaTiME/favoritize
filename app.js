@@ -7,7 +7,12 @@ var
   express = require('express'),
   everyauth = require('everyauth'),
   routes = require('./routes'),
-  app = module.exports = express.createServer();
+  app = module.exports = express.createServer(),
+  restify = require('restify'),
+  client = restify.createJsonClient({
+    url: 'http://api.favoritize.com',
+    version: '0.1.0'
+  });
 
 // auth
 
@@ -23,17 +28,15 @@ everyauth.password
     };
    })
   .authenticate( function (login, password) {
-    console.log("Login for: %j", login);
     var promise = this.Promise();
-    // async
-    setTimeout(function () {
-      if (login !== "super_safe" || password !== "123456") {
-        console.log("Invalid username.");
-        return promise.fulfill(["Invalid username."]);
+    client.get('/', function(err, req, res, obj) {
+      if (err) {
+        console.log("Authentication fail, error: %j", err);
+        return promise.fulfill([err]);
       }
-      console.log("User authenticated.");
-      promise.fulfill({});
-    }, 2500)
+      console.log("User authenticated. Data: %j", obj);
+      promise.fulfill(obj);
+    });
     return promise;
 
 
@@ -58,6 +61,7 @@ everyauth.password
     // return promise;
   })
   .respondToLoginSucceed( function (res, user, data) {
+    console.log("respondToLoginSucceed");
     if (user) {
       var redir_to = data.req.body.redir_to;
       if (!redir_to || redir_to.length === 0) {

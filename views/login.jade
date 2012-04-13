@@ -34,9 +34,9 @@
 
           form(action="/login", method='POST', style="padding-left: 10px;")
             //-label(for="email") Email
-            input#email(name=everyauth.password.loginFormFieldName, type="text", placeholder="Email", style="margin-left: -10px;", value="super_safe")
+            input#email(name=everyauth.password.loginFormFieldName, type="text", placeholder="Email", style="margin-left: -10px;", value="root")
             //-label(for="password") Password
-            input#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", style="margin-left: -10px;", value="123456")
+            input#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", style="margin-left: -10px;", value="secret")
             // redir
             input(type="hidden", name="redir_to", value=redir_to);
             .submit
