@@ -1,0 +1,23 @@
+
+.container
+  .row
+    .span4.offset4(style="text-align: center;")
+      div(style="margin-bottom: 28px; text-align: center;")
+        img(src="/images/logo.png", border="0", alt="Favoritize Logo")
+  .row
+    .span4.offset4(style="text-align: center;")
+      #login
+        .wrapper
+
+          .alert.alert-warning Already have an account?&nbsp;
+            a(href="/login") Log in
+
+          form(action="/login", method='POST', style="padding-left: 10px;")
+            //-label(for="email") Email
+            input#email(name=everyauth.password.loginFormFieldName, type="text", placeholder="Email", style="margin-left: -10px;")
+            //-label(for="password") Password
+            input#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", style="margin-left: -10px;")
+            //-label(for="password") Password
+            input#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", style="margin-left: -10px;")
+            .submit
+              button.btn.btn-primary(type="submit", onclick="$(this).hide();") Sign Up

@@ -18,19 +18,23 @@ everyauth.password
   .loginView('login.jade')
   .loginLocals(function (req, res) {
     return {
-      title: "Login",
+      title: "Log In",
       redir_to: req.query["redir_to"]
     };
    })
   .authenticate( function (login, password) {
     console.log("Login for: %j", login);
     var promise = this.Promise();
-    if (login !== "super_safe" || password !== "123456") {
-      console.log("Invalid username.");
-      return promise.fulfill(["Invalid username."]);
-    }
-    console.log("User authenticated.");
-    return promise.fulfill({});
+    // async
+    setTimeout(function () {
+      if (login !== "super_safe" || password !== "123456") {
+        console.log("Invalid username.");
+        return promise.fulfill(["Invalid username."]);
+      }
+      console.log("User authenticated.");
+      promise.fulfill({});
+    }, 2500)
+    return promise;
 
 
     // Either, we return a user or an array of errors if doing sync auth.
@@ -61,10 +65,6 @@ everyauth.password
       }
       this.redirect(res, redir_to);
     }
-    /*
-    if (user) {
-      this.redirect(res, data.session.redirectTo)
-    } */
   })
   .loginSuccessRedirect('/') // Where to redirect to after a login
 
@@ -72,12 +72,12 @@ everyauth.password
     // so just make sure your loginView() template incorporates an `errors` local.
     // See './example/views/login.jade'
 
-  .getRegisterPath('/register') // Uri path to the registration page
-  .postRegisterPath('/register') // The Uri path that your registration form POSTs to
-  .registerView('register.jade')
+  .getRegisterPath('/signup') // Uri path to the registration page
+  .postRegisterPath('/signup') // The Uri path that your registration form POSTs to
+  .registerView('signup.jade')
   .registerLocals(function (req, res) {
     return {
-      title: "Register"
+      title: "Sign Up"
     };
    })
   .validateRegistration( function (newUserAttributes) {
