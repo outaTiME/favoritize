@@ -1,7 +1,6 @@
 //-h1= title
 //-p Welcome to #{title}
 
-
 .container
   .row
     .span4.offset4(style="text-align: center;")
@@ -11,6 +10,12 @@
     .span4.offset4(style="text-align: center;")
       #login
         .wrapper
+
+          - if ('undefined' !== typeof errors && errors.length)
+            ul#errors
+              - each error in errors
+                li.error= error
+
           //
             .alert.alert-error
               //-a.close(data-dismiss="alert") x
@@ -25,18 +30,19 @@
             &nbsp;·&nbsp;Need an account?
             a(href="/signup") Sign up
 
-          form(style="padding-left: 10px;")
+          form(action="/login", method='POST', style="padding-left: 10px;")
             //-label(for="email") Email
-            input#email(name="email", type="text", placeholder="Email", style="margin-left: -10px;")
+            input#email(name=everyauth.password.loginFormFieldName, type="text", placeholder="Email", style="margin-left: -10px;", value="super_safe")
             //-label(for="password") Password
-            input#password(name="password", type="password", placeholder="Password", style="margin-left: -10px;")
-
+            input#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", style="margin-left: -10px;", value="123456")
+            // redir
+            input(type="hidden", name="redir_to", value=redir_to);
             .submit
               //
                 .progress.progress-striped.active
                   .bar(style="width: 100%")
                 button.btn.btn-primary(type="submit", onclick="$(this).hide();") Sign In
-              button.btn.btn-primary(type="button", onclick="$(this).hide();") Sign In
+              button.btn.btn-primary(type="submit", onclick="$(this).hide();") Sign In
 
 
 
