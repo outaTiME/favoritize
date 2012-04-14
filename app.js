@@ -4,15 +4,22 @@
  */
 
 var
+  restify = require('restify'),
   express = require('express'),
   everyauth = require('everyauth'),
   routes = require('./routes'),
-  app = module.exports = express.createServer(),
-  restify = require('restify'),
-  client = restify.createJsonClient({
+  app = module.exports = express.createServer();
+
+var getApiClient = function (login, password) {
+  // create new client for each request (statefull)
+  var client = restify.createJsonClient({
     url: 'http://api.favoritize.com',
     version: '0.1.0'
   });
+  // auth
+  client.basicAuth(login, password);
+  return client;
+}
 
 // auth
 
@@ -28,7 +35,7 @@ everyauth.password
     };
    })
   .authenticate( function (login, password) {
-    var promise = this.Promise();
+    var promise = this.Promise(), client = getApiClient(login, password);
     client.get('/', function(err, req, res, obj) {
       if (err) {
         console.log("Authentication fail, error: %j", err);
