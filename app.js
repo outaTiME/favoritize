@@ -155,7 +155,6 @@ app.configure('production', function(){
 });
 
 var checkAuth = function(req, res, next){
-  console.log("User logged: %s", req.loggedIn);
   if (req.loggedIn) {
     next();
   } else {
