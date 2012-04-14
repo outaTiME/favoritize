@@ -1,52 +1,46 @@
-//-h1= title
-//-p Welcome to #{title}
+
+- var errorClass = "", errorMessage = "";
+- if ('undefined' !== typeof errors && errors.length)
+  - errorClass = "error";
+  - errorMessage = errors[0].message;
 
 .container
+
+  //
+    .row
+      .span4.offset4(style="text-align: center;")
+        div(style="margin-bottom: 28px; text-align: center;")
+          img(src="/images/logo.png", border="0", alt="Favoritize Logo")
+
   .row
-    .span4.offset4(style="text-align: center;")
-      div(style="margin-bottom: 28px; text-align: center;")
-        img(src="/images/logo.png", border="0", alt="Favoritize Logo")
-  .row
-    .span4.offset4(style="text-align: center;")
+    .span6.offset3
       #login
         .wrapper
 
-          //
+          #logo
+            img(src="/images/logo.png", border="0", alt="Favoritize Logo")
 
-            - if ('undefined' !== typeof errors && errors.length)
-              ul#errors
-                - each error in errors
-                  li.error= error
-
-          //
+          - if ('' !== errorClass)
             .alert.alert-error
               //-a.close(data-dismiss="alert") x
-              <strong>Oh snap!</strong> Change a few things up and try submitting again.
-          //
-            .alert.alert-info
-              //-a.close(data-dismiss="alert") x
-              <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+              strong Oh snap!
+              |  Error found while trying to authenticate user.
 
-          .alert.alert-warning
-            a(href="/password/reset") Forgot your password?
-            &nbsp;·&nbsp;Need an account?
-            a(href="/signup") Sign up
-
-          form(action="/login", method='POST', style="padding-left: 10px;")
-            //-label(for="email") Email
-            input#email(name=everyauth.password.loginFormFieldName, type="text", placeholder="Email", style="margin-left: -10px;", value="root")
-            //-label(for="password") Password
-            input#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", style="margin-left: -10px;", value="secret")
-            // redir
-            input(type="hidden", name="redir_to", value=redir_to);
+          form(action="/login", method='POST')
+            fieldset
+              div(style="margin-left: 10px;")
+                .control-group(class=errorClass)
+                  .controls
+                    input.input-xlarge#email(name=everyauth.password.loginFormFieldName, type="text", placeholder="Email", style="margin-left: -10px;", value="root")
+                .control-group(class=errorClass)
+                  .controls
+                    input.input-xlarge#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", style="margin-left: -10px;", value="secret")
+                // redir
+                input(type="hidden", name="redir_to", value=redir_to);
             .submit
-              //
-                .progress.progress-striped.active
-                  .bar(style="width: 100%")
-                button.btn.btn-primary(type="submit", onclick="$(this).hide();") Sign In
-              button.btn.btn-primary(type="submit", onclick="$(this).hide();") Sign In
+              button.btn.btn-primary.btn-large(type="submit", onclick="$(this).hide();") Sign In
 
-
-
-  .row
-    .span4.offset4(style="text-align: center;margin-top: 18px;")
+          div
+            a(href="/password/reset") Forgot your password?
+            |  · Need an account?
+            a(href="/signup") Sign up
