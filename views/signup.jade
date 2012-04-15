@@ -1,23 +1,42 @@
 
+- var errorClass = "", errorMessage = "";
+- if ('undefined' !== typeof errors && errors.length)
+  - errorClass = "error";
+  - errorMessage = errors[0];
+
 .container
   .row
-    .span4.offset4(style="text-align: center;")
-      div(style="margin-bottom: 28px; text-align: center;")
-        img(src="/images/logo.png", border="0", alt="Favoritize Logo")
-  .row
-    .span4.offset4(style="text-align: center;")
-      #login
+    .span4.offset4
+      #signup
         .wrapper
 
-          .alert.alert-warning Already have an account?&nbsp;
-            a(href="/login") Log in
+          #logo
+            img(src="/images/logo.png", border="0", alt="Favoritize Logo")
 
-          form(action="/login", method='POST', style="padding-left: 10px;")
-            //-label(for="email") Email
-            input#email(name=everyauth.password.loginFormFieldName, type="text", placeholder="Email", style="margin-left: -10px;")
-            //-label(for="password") Password
-            input#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", style="margin-left: -10px;")
-            //-label(for="password") Password
-            input#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", style="margin-left: -10px;")
+          - if ('' !== errorClass)
+            .alert.alert-error
+              //-a.close(data-dismiss="alert") x
+              strong Oh snap!&nbsp;
+              | #{errorMessage}
+
+          .alert.alert-info
+            strong Heads up!&nbsp;
+            | We are in development mode, at this moment registration module was closed.
+
+          form(action="/signup", method='POST')
+            fieldset
+              div
+                .control-group(class=errorClass)
+                  .controls
+                    input.input-xlarge#email(name=everyauth.password.loginFormFieldName, type="text", placeholder="Email")
+                .control-group(class=errorClass)
+                  .controls
+                    input.input-xlarge#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password")
+                .control-group(class=errorClass)
+                  .controls
+                    input.input-xlarge#password(name="password_confirm", type="password", placeholder="Confirm Password")
             .submit
-              button.btn.btn-primary(type="submit", onclick="$(this).hide();") Sign Up
+              button.btn.btn-primary.disabled(type="submit", onclick="$(this).hide();", disabled) Register
+
+          div Already have an account?&nbsp;
+            a(href="/login") Log in

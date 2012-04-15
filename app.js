@@ -45,27 +45,6 @@ everyauth.password
       promise.fulfill(obj);
     });
     return promise;
-
-
-    // Either, we return a user or an array of errors if doing sync auth.
-    // Or, we return a Promise that can fulfill to promise.fulfill(user) or promise.fulfill(errors)
-    // `errors` is an array of error message strings
-    //
-    // e.g.,
-    // Example 1 - Sync Example
-    // if (usersByLogin[login] && usersByLogin[login].password === password) {
-    //   return usersByLogin[login];
-    // } else {
-    //   return ['Login failed'];
-    // }
-    //
-    // Example 2 - Async Example
-    // var promise = this.Promise()
-    // YourUserModel.find({ login: login}, function (err, user) {
-    //   if (err) return promise.fulfill([err]);
-    //   promise.fulfill(user);
-    // }
-    // return promise;
   })
   .respondToLoginSucceed( function (res, user, data) {
     console.log("respondToLoginSucceed");
@@ -90,18 +69,16 @@ everyauth.password
     return {
       title: "Sign Up"
     };
-   })
+  })
+  .extractExtraRegistrationParams( function (req) {
+    return {
+      password_confirm: req.body.password_confirm
+    };
+  })
   .validateRegistration( function (newUserAttributes) {
-    // Validate the registration input
-    // Return undefined, null, or [] if validation succeeds
-    // Return an array of error messages (or Promise promising this array)
-    // if validation fails
-    //
-    // e.g., assuming you define validate with the following signature
-    // var errors = validate(login, password, extraParams);
-    // return errors;
-    //
-    // The `errors` you return show up as an `errors` local in your jade template
+    console.log("Registration data: %j", newUserAttributes);
+    var promise = this.Promise();
+    return promise.fulfill(["Application in development phase, registration module was closed."]);
   })
   .registerUser( function (newUserAttributes) {
     // This step is only executed if we pass the validateRegistration step without

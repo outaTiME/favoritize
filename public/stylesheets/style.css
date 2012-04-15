@@ -1,11 +1,11 @@
-html,
 body {
   background: url("/images/groovepaper.png") center top repeat;
 }
 .container {
-  padding: 18px 0;
+  padding: 20px 0;
 }
-#login {
+#login,
+#signup {
   padding: 19px;
   background-color: rgba(255,255,255,0.50);
   border: 1px solid rgba(0,0,0,0.15);
@@ -18,20 +18,31 @@ body {
   border-bottom: 1px solid rgba(0,0,0,0.18);
   text-align: center;
 }
-#login #logo {
+#login #logo,
+#signup #logo {
   margin-bottom: 18px;
   border-bottom: 1px solid #eee;
   padding-bottom: 18px;
 }
-#login .alert {
+#login .alert,
+#signup .alert {
   padding: 8px;
 }
-#login form input {
-  width: 100%;
+#login form fieldset > div,
+#signup form fieldset > div {
+  margin-left: 10px;
 }
-#login form .submit {
+#login form input,
+#signup form input {
+  width: 100%;
+  margin-left: -10px;
+}
+#login form .submit,
+#signup form .submit {
   margin-top: 9px;
   height: 28px;
+}
+#login .submit {
   background-image: url("/images/spinner.gif");
   background-position: center;
   background-repeat: no-repeat;
