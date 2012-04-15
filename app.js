@@ -4,24 +4,41 @@
  */
 
 var
+
+  // dependencies
+
   restify = require('restify'),
   express = require('express'),
   everyauth = require('everyauth'),
   routes = require('./routes'),
-  app = module.exports = express.createServer();
+  app = module.exports = express.createServer()
 
-var getApiClient = function (login, password) {
-  // create new client for each request (statefull)
-  var client = restify.createJsonClient({
-    url: 'http://api.favoritize.com',
-    version: '0.1.0'
-  });
-  // auth
-  client.basicAuth(login, password);
-  return client;
-}
+  /** Yay, out application name. */
+  app_name = "Favoritize",
 
-// auth
+  /** Get client instance for favoritize api call. */
+  getApiClient = function (login, password) {
+    // create new client for each request (statefull)
+    var client = restify.createJsonClient({
+      url: 'http://api.favoritize.com',
+      version: '0.1.0'
+    });
+    // auth
+    client.basicAuth(login, password);
+    return client;
+  },
+
+  /** Check auth method, used in each express request. */
+  checkAuth = function(req, res, next){
+    if (req.loggedIn) {
+      next();
+    } else {
+      req.session.redirect_to = req.url;
+      res.redirect("/login");
+    }
+  };
+
+// authorization
 
 everyauth.password
   .loginWith('email')
@@ -30,8 +47,7 @@ everyauth.password
   .loginView('login.jade')
   .loginLocals(function (req, res) {
     return {
-      title: "Log In",
-      redir_to: req.query["redir_to"]
+      title: "Log In"
     };
    })
   .authenticate( function (login, password) {
@@ -47,12 +63,12 @@ everyauth.password
     return promise;
   })
   .respondToLoginSucceed( function (res, user, data) {
-    console.log("respondToLoginSucceed");
     if (user) {
-      var redir_to = data.req.body.redir_to;
+      var redir_to = data.req.session.redirect_to;
       if (!redir_to || redir_to.length === 0) {
         redir_to = this.loginSuccessRedirect(); // prevent empty string
       }
+      console.log("Login success, redirecting to: %s", redir_to);
       this.redirect(res, redir_to);
     }
   })
@@ -104,9 +120,19 @@ everyauth.password
     // Note: Index and db-driven validations are the only validations that occur
     // here; all other validations occur in the `validateRegistration` step documented above.
   })
+  .respondToRegistrationSucceed( function (res, user, data) {
+    if (user) {
+      var redir_to = data.req.session.redir_to;
+      if (!redir_to || redir_to.length === 0) {
+        redir_to = this.registerSuccessRedirect(); // prevent empty string
+      }
+      console.log("Registration success, redirecting to: %s", redir_to);
+      this.redirect(res, redir_to);
+    }
+  })
   .registerSuccessRedirect('/'); // Where to redirect to after a successful registration
 
-// Configuration
+// configuration
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -121,8 +147,6 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
 });
 
-everyauth.helpExpress(app);
-
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
@@ -131,19 +155,30 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-var checkAuth = function(req, res, next){
-  if (req.loggedIn) {
-    next();
-  } else {
-    res.redirect('/login?redir_to=' + encodeURIComponent(req.url));
-  }
-}
+// helpers
 
-// Routes
+app.dynamicHelpers({
+  buildTitle: function(req, res) {
+    return function (title) {
+      console.log("Get title for: %s", title);
+      var result = [app_name];
+      if ("undefined" !== typeof title && title.length > 0) {
+        result.push(title);
+      }
+      return result.join(", ");
+    }
+  }
+});
+
+everyauth.helpExpress(app);
+
+// routes
 
 app.get('/', checkAuth, routes.home);
 app.get('/test', checkAuth, routes.test);
 
-app.listen(process.env.PORT || 3001, function(){
-  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+// launcher
+
+app.listen(process.env.PORT || 3001, function() {
+  console.log("%s listening on port %d in %s mode", app_name, app.address().port, app.settings.env);
 });

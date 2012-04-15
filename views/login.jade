@@ -35,12 +35,10 @@
                 .control-group(class=errorClass)
                   .controls
                     input.input-xlarge#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", value="secret")
-                // redir
-                input(type="hidden", name="redir_to", value=redir_to);
             .submit
               button.btn.btn-primary(type="submit", onclick="$(this).hide();") Sign In
 
           div
             a.disabled(href="#") Forgot your password?
-            | · Need an account?
+            | &nbsp;·&nbsp;Need an account?
             a(href="/signup") Sign up
