@@ -47,13 +47,39 @@ body
     .submit
       margin-top: 9px;
       height: 28px;
-      background-image: url(/images/spinner.round.gif);
+      background-image: url(/images/spinner.gif);
       background-position: center;
       background-repeat: no-repeat;
 
 /** High density rules **/
 
-@media only screen and (-webkit-min-device-pixel-ratio: 2)
+/* only screen and (-o-min-device-pixel-ratio: 3/2), */
+
+@media only screen and (-moz-min-device-pixel-ratio: 1.5),
+  only screen and (-webkit-min-device-pixel-ratio: 1.5),
+  only screen and (min-device-pixel-ratio: 1.5)
+
+  body
+    background-size: 200px 200px;
+
+  #login, #signup
+
+    #header_ct
+
+      #logo
+        background-image: url(/images/logo@x1.5.png);
+        -webkit-background-size: 188px 60px;
+
+    form
+      .submit
+        background-image: url(/images/spinner@x1.5.gif);
+        background-size: 16px 16px;
+
+/* only screen and (-o-min-device-pixel-ratio: 2\/1), */
+
+@media only screen and (-moz-min-device-pixel-ratio: 2),
+  only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (min-device-pixel-ratio: 2)
 
   body
     background-size: 150px 150px;
@@ -68,7 +94,7 @@ body
 
     form
       .submit
-        background-image: url(/images/spinner.round@x2.gif);
+        background-image: url(/images/spinner@x2.gif);
         background-size: 16px 16px;
 
 /*

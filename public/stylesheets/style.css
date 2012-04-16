@@ -56,7 +56,24 @@ body {
   background-repeat: no-repeat;
 }
 /** High density rules **/
-@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+/* only screen and (-o-min-device-pixel-ratio: 3/2), */
+@media only screen and (-moz-min-device-pixel-ratio: 1.5),only screen and (-webkit-min-device-pixel-ratio: 1.5),only screen and (min-device-pixel-ratio: 1.5) {
+  body {
+    background-size: 200px 200px;
+  }
+  #login #header_ct #logo,
+  #signup #header_ct #logo {
+    background-image: url("/images/logo@x1.5.png");
+    -webkit-background-size: 188px 60px;
+  }
+  #login form .submit,
+  #signup form .submit {
+    background-image: url("/images/spinner.round@x1.5.gif");
+    background-size: 16px 16px;
+  }
+}
+/* only screen and (-o-min-device-pixel-ratio: 2\/1), */
+@media only screen and (-moz-min-device-pixel-ratio: 2),only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min-device-pixel-ratio: 2) {
   body {
     background-size: 150px 150px;
   }
