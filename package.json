@@ -9,7 +9,7 @@
     "type": "git",
     "url": "http://github.com/outaTiME/favoritize.git"
   },
-  "main": "lib/app",
+  "main": "app",
   "dependencies": {
     "restify": "1.x",
     "express": "2.x",
