@@ -11,11 +11,11 @@
   },
   "main": "lib/app",
   "dependencies": {
-    "restify": ">=1.3.0",
-    "express": ">=2.5.8",
-    "jade": ">=0.0.1",
-    "stylus": ">=0.0.1",
-    "everyauth": ">=0.2.32"
+    "restify": "1.x",
+    "express": "2.x",
+    "jade": "0.x",
+    "stylus": "0.x",
+    "everyauth": "0.x"
   },
   "engines": {
     "node": ">=0.6.6"
