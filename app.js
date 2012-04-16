@@ -11,7 +11,6 @@ var
   express = require('express'),
   everyauth = require('everyauth'),
   routes = require('./routes'),
-  app = module.exports = express.createServer()
 
   /** Yay, out application name. */
   app_name = "Favoritize",
@@ -20,11 +19,12 @@ var
   getApiClient = function (login, password) {
     // create new client for each request (statefull)
     var client = restify.createJsonClient({
-      url: 'http://api.favoritize.com',
+      url: (app.settings.env === "development") ? 'http://localhost:3000' : 'http://api.favoritize.com',
       version: '0.1.0'
     });
-    // auth
-    client.basicAuth(login, password);
+    if (arguments.length > 0) { // with auth ?
+      client.basicAuth(login, password);
+    }
     return client;
   },
 
@@ -36,7 +36,11 @@ var
       req.session.redirect_to = req.url;
       res.redirect("/login");
     }
-  };
+  },
+
+  // server
+
+  app = module.exports = express.createServer();
 
 // authorization
 
@@ -52,7 +56,7 @@ everyauth.password
    })
   .authenticate( function (login, password) {
     var promise = this.Promise(), client = getApiClient(login, password);
-    client.get('/', function(err, req, res, obj) {
+    client.head('/', function(err, req, res, obj) {
       if (err) {
         console.log("Authentication fail, error: %j", err);
         return promise.fulfill([err]);
@@ -93,32 +97,25 @@ everyauth.password
   })
   .validateRegistration( function (newUserAttributes) {
     console.log("Registration data: %j", newUserAttributes);
-    var promise = this.Promise();
-    return promise.fulfill(["Application in development phase, registration module was closed."]);
+    return [];
+    /* var promise = this.Promise();
+    return promise.fulfill(["Application in development phase, registration module was closed."]); */
   })
   .registerUser( function (newUserAttributes) {
-    // This step is only executed if we pass the validateRegistration step without
-    // any errors.
-    //
-    // Returns a user (or a Promise that promises a user) after adding it to
-    // some user store.
-    //
-    // As an edge case, sometimes your database may make you aware of violation
-    // of the unique login index, so if this error is sent back in an async
-    // callback, then you can just return that error as a single element array
-    // containing just that error message, and everyauth will automatically handle
-    // that as a failed registration. Again, you will have access to this error via
-    // the `errors` local in your register view jade template.
-    // e.g.,
-    // var promise = this.Promise();
-    // User.create(newUserAttributes, function (err, user) {
-    //   if (err) return promise.fulfill([err]);
-    //   promise.fulfill(user);
-    // });
-    // return promise;
-    //
-    // Note: Index and db-driven validations are the only validations that occur
-    // here; all other validations occur in the `validateRegistration` step documented above.
+    var promise = this.Promise(), client = getApiClient();
+
+    console.log(typeof newUserAttributes);
+    console.log(newUserAttributes);
+
+    client.post('/users', newUserAttributes, function(err, req, res, data) {
+      if (err) {
+        console.log("User creation fail, error: %j", err);
+        return promise.fulfill([err]);
+      }
+      console.log("User created. Data: %j", data);
+      promise.fulfill(data);
+    });
+    return promise;
   })
   .respondToRegistrationSucceed( function (res, user, data) {
     if (user) {
@@ -166,7 +163,7 @@ app.dynamicHelpers({
         result.push(title);
       }
       return result.join(", ");
-    }
+    };
   }
 });
 
@@ -180,5 +177,5 @@ app.get('/test', checkAuth, routes.test);
 // launcher
 
 app.listen(process.env.PORT || 3001, function() {
-  console.log("%s listening on port %d in %s mode", app_name, app.address().port, app.settings.env);
+  console.log("%s listening on port %d (%s mode)", app_name, app.address().port, app.settings.env);
 });
