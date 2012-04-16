@@ -18,11 +18,21 @@ body {
   border-bottom: 1px solid rgba(0,0,0,0.18);
   text-align: center;
 }
+#login #header_ct,
+#signup #header_ct {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+}
 #login #logo,
 #signup #logo {
-  margin-bottom: 18px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 18px;
+  background-image: url("/images/logo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 188px;
+  height: 60px;
+  display: block;
+  margin: 0 auto;
 }
 #login .alert,
 #signup .alert {
@@ -41,11 +51,25 @@ body {
 #signup form .submit {
   margin-top: 9px;
   height: 28px;
-}
-#login .submit {
-  background-image: url("/images/spinner.gif");
+  background-image: url("/images/spinner.round.gif");
   background-position: center;
   background-repeat: no-repeat;
+}
+/** High density rules **/
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  body {
+    background-size: 150px 150px;
+  }
+  #login #header_ct #logo,
+  #signup #header_ct #logo {
+    background-image: url("/images/logo@x2.png");
+    -webkit-background-size: 188px 60px;
+  }
+  #login form .submit,
+  #signup form .submit {
+    background-image: url("/images/spinner.round@x2.gif");
+    background-size: 16px 16px;
+  }
 }
 /*
 

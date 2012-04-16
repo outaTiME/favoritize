@@ -8,37 +8,37 @@
   .row
     .span4.offset4
       #signup
-        .wrapper
 
+        #header_ct
           #logo
-            img(src="/images/logo.png", border="0", alt="Favoritize Logo")
 
-          - if ('' !== errorClass)
-            .alert.alert-error
-              //-a.close(data-dismiss="alert") x
-              strong Oh snap!&nbsp;
-              | #{errorMessage}
+        - if ('' !== errorClass)
+          .alert.alert-error
+            //-a.close(data-dismiss="alert") x
+            strong Oh snap!&nbsp;
+            | #{errorMessage}
 
-          .alert.alert-info
-            strong Heads up!&nbsp;
-            | We are in development mode, at this moment registration module was closed.
+        .alert.alert-info
+          strong Heads up!&nbsp;
+          | We are in development mode, registration module does not work as expected.
 
-          form(action="/signup", method='POST')
-            fieldset
-              div
-                .control-group(class=errorClass)
-                  .controls
-                    input.input-xlarge#email(name=everyauth.password.loginFormFieldName, type="text", placeholder="Email")
-                .control-group(class=errorClass)
-                  .controls
-                    input.input-xlarge#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password")
-                .control-group(class=errorClass)
-                  .controls
-                    input.input-xlarge#password(name="password_confirm", type="password", placeholder="Confirm Password")
-            .submit
-              //
-                button.btn.btn-primary.disabled(type="submit", onclick="$(this).hide();", disabled) Register
-              button.btn.btn-primary(type="submit", onclick="$(this).hide();") Register
+        form(action="/signup", method='POST')
+          fieldset
+            div
+              .control-group(class=errorClass)
+                .controls
+                  input.input-xlarge#invitation_code(name="invitation_code", type="text", placeholder="Invitation Code", value=invitationCodeFormFieldValue)
+              .control-group(class=errorClass)
+                .controls
+                  input.input-xlarge#email(name=everyauth.password.loginFormFieldName, type="text", placeholder="Email")
+              .control-group(class=errorClass)
+                .controls
+                  input.input-xlarge#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password")
+              .control-group(class=errorClass)
+                .controls
+                  input.input-xlarge#password(name="password_confirm", type="password", placeholder="Confirm Password")
+          .submit
+            button.btn.btn-primary(type="submit", onclick="$(this).hide();") Register
 
-          div Already have an account?&nbsp;
-            a(href="/login") Log in
+        div Already have an account?&nbsp;
+          a(href="/login") Log in

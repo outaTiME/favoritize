@@ -6,6 +6,7 @@ body
   padding: 20px 0;
 
 #login, #signup
+
   padding: 19px;
   background-color: rgba(255, 255, 255, 0.50);
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -18,10 +19,19 @@ body
   border-bottom: 1px solid rgba(0, 0, 0, 0.18);
   text-align: center;
 
-  #logo
-    margin-bottom: 18px;
-    border-bottom: 1px solid #EEE;
-    padding-bottom: 18px;
+  #header_ct
+      border-bottom: 1px solid #EEE;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+
+    #logo
+      background-image: url(/images/logo.png);
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 188px;
+      height: 60px;
+      display: block;
+      margin: 0 auto;
 
   .alert
     padding: 8px;
@@ -37,12 +47,29 @@ body
     .submit
       margin-top: 9px;
       height: 28px;
-
-#login
-    .submit
-      background-image: url(/images/spinner.gif);
+      background-image: url(/images/spinner.round.gif);
       background-position: center;
       background-repeat: no-repeat;
+
+/** High density rules **/
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2)
+
+  body
+    background-size: 150px 150px;
+
+  #login, #signup
+
+    #header_ct
+
+      #logo
+        background-image: url(/images/logo@x2.png);
+        -webkit-background-size: 188px 60px;
+
+    form
+      .submit
+        background-image: url(/images/spinner.round@x2.gif);
+        background-size: 16px 16px;
 
 /*
 

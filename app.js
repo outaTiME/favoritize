@@ -15,11 +15,28 @@ var
   /** Yay, out application name. */
   app_name = "Favoritize",
 
+  /** Default login field value. **/
+  login_value = "admin",
+
+  /** Default password field value. **/
+  password_value = "c%}YW34^86>7,xJ",
+
+  /** Invitation code, only available in development mode. **/
+  invitation_code = "93Q6$7=vF)b^/2V",
+
+  /** Get value only if running app in development mode, if not return empty (used by helpers). **/
+  getEnvironmentValue = function(value, empty) {
+    if (app.settings.env === "development") {
+      return value;
+    }
+    return empty || "";
+  },
+
   /** Get client instance for favoritize api call. */
   getApiClient = function (login, password) {
     // create new client for each request (statefull)
     var client = restify.createJsonClient({
-      url: (app.settings.env === "development") ? 'http://localhost:3000' : 'http://api.favoritize.com',
+      url: getEnvironmentValue("http://localhost:3000", "http://api.favoritize.com"),
       version: '0.1.0'
     });
     if (arguments.length > 0) { // with auth ?
@@ -46,8 +63,8 @@ var
 
 everyauth.password
   .loginWith('email')
-  .getLoginPath('/login') // Uri path to the login page
-  .postLoginPath('/login') // Uri path that your login form POSTs to
+  .getLoginPath('/login')
+  .postLoginPath('/login')
   .loginView('login.jade')
   .loginLocals(function (req, res) {
     return {
@@ -76,14 +93,9 @@ everyauth.password
       this.redirect(res, redir_to);
     }
   })
-  .loginSuccessRedirect('/') // Where to redirect to after a login
-
-    // If login fails, we render the errors via the login view template,
-    // so just make sure your loginView() template incorporates an `errors` local.
-    // See './example/views/login.jade'
-
-  .getRegisterPath('/signup') // Uri path to the registration page
-  .postRegisterPath('/signup') // The Uri path that your registration form POSTs to
+  .loginSuccessRedirect('/')
+  .getRegisterPath('/signup')
+  .postRegisterPath('/signup')
   .registerView('signup.jade')
   .registerLocals(function (req, res) {
     return {
@@ -92,21 +104,20 @@ everyauth.password
   })
   .extractExtraRegistrationParams( function (req) {
     return {
+      invitation_code: req.body.invitation_code,
       password_confirm: req.body.password_confirm
     };
   })
   .validateRegistration( function (newUserAttributes) {
     console.log("Registration data: %j", newUserAttributes);
-    return [];
-    /* var promise = this.Promise();
-    return promise.fulfill(["Application in development phase, registration module was closed."]); */
+    var promise = this.Promise(), errors = [];
+    if (newUserAttributes.invitation_code !== invitation_code) {
+      errors.push("Unable to find the invitation code provided.");
+    }
+    return errors;
   })
   .registerUser( function (newUserAttributes) {
     var promise = this.Promise(), client = getApiClient();
-
-    console.log(typeof newUserAttributes);
-    console.log(newUserAttributes);
-
     client.post('/users', newUserAttributes, function(err, req, res, data) {
       if (err) {
         console.log("User creation fail, error: %j", err);
@@ -144,20 +155,17 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app.configure('production', function(){
-  app.use(express.errorHandler());
-});
-
 // helpers
+
+app.helpers({
+  loginFormFieldValue: getEnvironmentValue(login_value),
+  passwordFormFieldValue: getEnvironmentValue(password_value),
+  invitationCodeFormFieldValue: getEnvironmentValue(invitation_code)
+});
 
 app.dynamicHelpers({
   buildTitle: function(req, res) {
     return function (title) {
-      console.log("Get title for: %s", title);
       var result = [app_name];
       if ("undefined" !== typeof title && title.length > 0) {
         result.push(title);
@@ -173,6 +181,16 @@ everyauth.helpExpress(app);
 
 app.get('/', checkAuth, routes.home);
 app.get('/test', checkAuth, routes.test);
+
+// environment specific
+
+app.configure('development', function(){
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.configure('production', function(){
+  app.use(express.errorHandler());
+});
 
 // launcher
 
