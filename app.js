@@ -157,7 +157,7 @@ app.configure(function(){
 
 // helpers
 
-app.helpers({
+app.locals({
   loginFormFieldValue: getEnvironmentValue(login_value),
   passwordFormFieldValue: getEnvironmentValue(password_value),
   invitationCodeFormFieldValue: getEnvironmentValue(invitation_code)
