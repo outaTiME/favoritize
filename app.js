@@ -16,13 +16,13 @@ var
   app_name = "Favoritize",
 
   /** Default login field value. **/
-  login_value = "admin",
+  login_value = "afalduto@gmail.com",
 
   /** Default password field value. **/
-  password_value = "c%}YW34^86>7,xJ",
+  password_value = "ebd6f534736fed7c475d9c175abd024e",
 
   /** Invitation code, only available in development mode. **/
-  invitation_code = "93Q6$7=vF)b^/2V",
+  invitation_code = "1515d5b65c8b446d6c152395d7d484bc",
 
   /** Get value only if running app in development mode, if not return empty (used by helpers). **/
   getEnvironmentValue = function(value, empty) {
@@ -109,19 +109,19 @@ everyauth.password
     };
   })
   .validateRegistration( function (newUserAttributes) {
-    console.log("Registration data: %j", newUserAttributes);
     var promise = this.Promise(), errors = [];
-    if (newUserAttributes.invitation_code !== invitation_code) {
+    /* if (newUserAttributes.invitation_code !== invitation_code) {
       errors.push("Unable to find the invitation code provided.");
-    }
+    } */
     return errors;
   })
   .registerUser( function (newUserAttributes) {
+    console.log("Tying to register user using data: %j", newUserAttributes);
     var promise = this.Promise(), client = getApiClient();
     client.post('/users', newUserAttributes, function(err, req, res, data) {
       if (err) {
         console.log("User creation fail, error: %j", err);
-        return promise.fulfill([err]);
+        return promise.fulfill([err.message]);
       }
       console.log("User created. Data: %j", data);
       promise.fulfill(data);
