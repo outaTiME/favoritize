@@ -1,5 +1,27 @@
 
-.container
-  .row
-    .span4.offset4(style="text-align: center;")
-      h1 Logged In
+#home
+  .container(style="text-align: center;")
+    .row
+      .span8.offset2
+        #box
+          header#overview.jumbotron.subhead
+            #header_ct
+              #logo
+            p.lead <strong>Friendly user review</strong> platform, based on easy ratio mechanism
+          .tabbable
+            ul.nav.nav-tabs
+              li.active
+                a(href="#1", data-toggle="tab") Section 1
+              li
+                a(href="#2", data-toggle="tab") Section 2
+              li(style="float: right;")
+                a(href="#3", data-toggle="tab")= user.email
+            .tab-content
+              #1.tab-pane.active
+                p I'm in Section 1.
+              #2.tab-pane
+                p Howdy, I'm in Section 2.
+              #3.tab-pane
+                p What up girl, this is Section 3.
+              #4.tab-pane
+                p I'm in Section 4.

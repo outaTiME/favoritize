@@ -37,6 +37,7 @@ var
     // create new client for each request (statefull)
     var client = restify.createJsonClient({
       url: getEnvironmentValue("http://localhost:3000", "http://api.favoritize.com"),
+      // url: "http://api.favoritize.com",
       version: '0.1.0'
     });
     if (arguments.length > 0) { // with auth ?
@@ -73,7 +74,7 @@ everyauth.password
    })
   .authenticate( function (login, password) {
     var promise = this.Promise(), client = getApiClient(login, password);
-    client.head('/', function(err, req, res, obj) {
+    client.get('/hi', function(err, req, res, obj) {
       if (err) {
         console.log("Authentication fail, error: %j", err);
         return promise.fulfill([err]);
@@ -85,6 +86,10 @@ everyauth.password
   })
   .respondToLoginSucceed( function (res, user, data) {
     if (user) {
+      // i dont want to implement everyauth findById, user object is too lightweight
+      data.req.session.user = user;
+      console.log("Store user object at session scope: %j", user);
+      // proper redirection
       var redir_to = data.req.session.redirect_to;
       if (!redir_to || redir_to.length === 0) {
         redir_to = this.loginSuccessRedirect(); // prevent empty string
@@ -157,6 +162,8 @@ app.configure(function(){
 
 // helpers
 
+everyauth.helpExpress(app);
+
 app.helpers({
   loginFormFieldValue: getEnvironmentValue(login_value),
   passwordFormFieldValue: getEnvironmentValue(password_value),
@@ -164,7 +171,12 @@ app.helpers({
 });
 
 app.dynamicHelpers({
-  buildTitle: function(req, res) {
+  user: function(req, res) {
+    var user = req.session.user;
+    console.log("Resolve user from session: %j", user);
+    return user;
+  },
+  getTitle: function(req, res) {
     return function (title) {
       var result = [app_name];
       if ("undefined" !== typeof title && title.length > 0) {
@@ -174,8 +186,6 @@ app.dynamicHelpers({
     };
   }
 });
-
-everyauth.helpExpress(app);
 
 // routes
 
