@@ -15,7 +15,8 @@
     "express": "2.x",
     "jade": "0.x",
     "stylus": "0.x",
-    "everyauth": "0.x"
+    "everyauth": "0.x",
+    "aws-lib": "0.x"
   },
   "engines": {
     "node": ">=0.6.14"

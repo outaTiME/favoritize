@@ -11,6 +11,7 @@ var
   express = require('express'),
   everyauth = require('everyauth'),
   routes = require('./routes'),
+  aws = require('aws-lib'),
 
   /** Yay, out application name. */
   app_name = "Favoritize",
@@ -23,6 +24,15 @@ var
 
   /** Invitation code, only available in development mode. **/
   invitation_code = "1515d5b65c8b446d6c152395d7d484bc",
+
+  /** Amazon access key id. **/
+  aws_access_key_id = "AKIAJNP2M6VLA27BZ4RA",
+
+  /** Amazon secret access key. **/
+  aws_secret_access_key = "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",
+
+  /** Amazon associate tag (only for product advertising api). **/
+  aws_associate_tag = "favoritize-20",
 
   /** Get value only if running app in development mode, if not return empty (used by helpers). **/
   getEnvironmentValue = function(value, empty) {
@@ -201,6 +211,20 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
+
+// aws test
+
+/*
+var prodAdv = aws.createProdAdvClient("AKIAJNP2M6VLA27BZ4RA", "2tr4x5lgpnq0QLUdSB8zjidgMfAUXFHNa3zjcSZ0",
+  "favoritize-20");
+
+prodAdv.call("ItemSearch", {SearchIndex: "All", Keywords: "node%20js"}, function(err, result) {
+  console.log(JSON.stringify(result.Items.TotalResults));
+  result.Items.Item.forEach(function(item) {
+    console.log("Item: %s - data: %j", item.ItemAttributes.Title, item.ItemAttributes);
+  });
+});
+*/
 
 // launcher
 
