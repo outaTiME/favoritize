@@ -14,7 +14,7 @@
                 a(href="#1", data-toggle="tab") Dashboard
               li
                 a(href="#2", data-toggle="tab") Reviews
-              li.dropdown(style="float: right;margin-left: 10px;margin-right: 0;")
+              li.dropdown(style="float: right;")
                 a.dropdown-toggle(href="#", data-toggle="dropdown")= user.email
                   b.caret
                 ul.dropdown-menu
@@ -25,12 +25,8 @@
                   li.divider
                   li
                     a(href="/logout") Sign Out
-              //
-                li(style="float: right;")
-                  a(href="#3", data-toggle="tab")= user.email
             .tab-content
               #1.tab-pane.active
               #2.tab-pane
-              #3.tab-pane
 
 

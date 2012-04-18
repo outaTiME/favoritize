@@ -36,8 +36,8 @@ var
   getApiClient = function (login, password) {
     // create new client for each request (statefull)
     var client = restify.createJsonClient({
-      url: getEnvironmentValue("http://localhost:3000", "http://api.favoritize.com"),
-      // url: "http://api.favoritize.com",
+      // url: getEnvironmentValue("http://localhost:3000", "http://api.favoritize.com"),
+      url: "http://api.favoritize.com",
       version: '0.1.0'
     });
     if (arguments.length > 0) { // with auth ?
