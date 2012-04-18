@@ -44,4 +44,6 @@ html(lang="en")
         a.resize(function() {
           c.trigger("center");
         })
+        // prevent reflow
+        c.css({visibility: "visible"});
       });
