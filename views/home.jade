@@ -11,17 +11,26 @@
           .tabbable
             ul.nav.nav-tabs
               li.active
-                a(href="#1", data-toggle="tab") Section 1
+                a(href="#1", data-toggle="tab") Dashboard
               li
-                a(href="#2", data-toggle="tab") Section 2
-              li(style="float: right;")
-                a(href="#3", data-toggle="tab")= user.email
+                a(href="#2", data-toggle="tab") Reviews
+              li.dropdown(style="float: right;margin-left: 10px;margin-right: 0;")
+                a.dropdown-toggle(href="#", data-toggle="dropdown")= user.email
+                  b.caret
+                ul.dropdown-menu
+                  li
+                    a(href="#") Profile
+                  li
+                    a(href="#") Account Settings
+                  li.divider
+                  li
+                    a(href="/logout") Sign Out
+              //
+                li(style="float: right;")
+                  a(href="#3", data-toggle="tab")= user.email
             .tab-content
               #1.tab-pane.active
-                p I'm in Section 1.
               #2.tab-pane
-                p Howdy, I'm in Section 2.
               #3.tab-pane
-                p What up girl, this is Section 3.
-              #4.tab-pane
-                p I'm in Section 4.
+
+
