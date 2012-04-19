@@ -47,3 +47,26 @@ html(lang="en")
         // prevent reflow
         c.css({visibility: "visible"});
       });
+
+      // search
+      function searchKeywords(button) {
+        $(button).hide();
+        var keywords = $("#search #keywords").val();
+        $.ajax({
+          type: "POST",
+          url: '/search',
+          // dataType: "json",
+          data: {
+            keywords: keywords
+          },
+          error: function (xhr, status) {
+            console.error(status);
+          },
+          success: function(data, textStatus, jqXHR) {
+            $('#search-result').html(data).show();
+          },
+          complete: function(jqXHR, textStatus) {
+            $(button).show();
+          }
+        });
+      }
