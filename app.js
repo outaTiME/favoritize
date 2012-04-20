@@ -135,6 +135,10 @@ everyauth.password
   })
   .respondToRegistrationSucceed( function (res, user, data) {
     if (user) {
+      // i dont want to implement everyauth findById, user object is too lightweight
+      data.req.session.user = user;
+      console.log("Store user object at session scope: %j", user);
+      // proper redirection
       var redir_to = data.req.session.redir_to;
       if (!redir_to || redir_to.length === 0) {
         redir_to = this.registerSuccessRedirect(); // prevent empty string
