@@ -35,7 +35,7 @@ html(lang="en")
         }
         var a = $(window), c = $("#box"), d = c.closest(".container");
         c.bind("center", function() {
-          var e = a.height() - d.height() - 40; // 40 too from container padding
+          var e = a.height() - d.height() - 36; // 36 too from container padding
           var f = Math.floor(e / 2);
           if (f > 0) { // took from style
             d.css({marginTop: f});
@@ -49,8 +49,11 @@ html(lang="en")
       });
 
       // search
-      function searchKeywords(button) {
-        $(button).hide();
+
+      $("#search").submit(function (e) {
+        e.preventDefault();
+        var button = $("form button");
+        button.hide();
         var keywords = $("#search #keywords").val();
         $.ajax({
           type: "POST",
@@ -66,7 +69,7 @@ html(lang="en")
             $('#search-result').html(data).show();
           },
           complete: function(jqXHR, textStatus) {
-            $(button).show();
+            button.show();
           }
         });
-      }
+      });
