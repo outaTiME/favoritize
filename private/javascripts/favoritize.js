@@ -29,6 +29,11 @@ $(function () {
     }
   });
 
+  // FIXME: [outaTiME] disable textfields from login / signup when submit
+  /* $("#search").submit(function (e) {
+    keywords.attr("disabled", true); // no ajax
+  }); */
+
   // home search
   $("#search").submit(function (e) {
     e.preventDefault();
