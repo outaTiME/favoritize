@@ -151,6 +151,8 @@ everyauth.password
 
 // configuration
 
+;
+
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -159,7 +161,8 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(everyauth.middleware());
   app.use(express.methodOverride());
-  app.use(require('stylus').middleware({ src: __dirname + '/public' }));
+  app.use(require('stylus').middleware({ src: __dirname + '/private', dest: __dirname + '/public' }));
+  app.use(require('uglify-js-middleware')({ src : __dirname + '/private', dest: __dirname + '/public', uglyext: false }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });

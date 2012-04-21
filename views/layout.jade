@@ -7,9 +7,9 @@ html(lang="en")
     meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no')
     meta(name='description', content='')
     meta(name='author', content='')
-    link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.css')
     //if lt IE 9
       script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
     link(rel='shortcut icon', href='/assets/ico/favicon.ico')
@@ -27,49 +27,6 @@ html(lang="en")
       })();
   body!= body
     script(type='text/javascript', src='/javascripts/jquery-1.7.2.min.js')
-    script(type='text/javascript', src='/javascripts/bootstrap.js')
-    script(type='text/javascript')
-      $(function() {
-        if ($("body #home").length > 0) {
-          return;
-        }
-        var a = $(window), c = $("#box"), d = c.closest(".container");
-        c.bind("center", function() {
-          var e = a.height() - d.height() - 36; // 36 too from container padding
-          var f = Math.floor(e / 2);
-          if (f > 0) { // took from style
-            d.css({marginTop: f});
-          }
-        }).trigger("center");
-        a.resize(function() {
-          c.trigger("center");
-        })
-        // prevent reflow
-        c.css({visibility: "visible"});
-      });
-
-      // search
-
-      $("#search").submit(function (e) {
-        e.preventDefault();
-        var button = $("form button");
-        button.hide();
-        var keywords = $("#search #keywords").val();
-        $.ajax({
-          type: "POST",
-          url: '/search',
-          // dataType: "json",
-          data: {
-            keywords: keywords
-          },
-          error: function (xhr, status) {
-            console.error(status);
-          },
-          success: function(data, textStatus, jqXHR) {
-            $('#search-result').html(data).show();
-          },
-          complete: function(jqXHR, textStatus) {
-            button.show();
-          }
-        });
-      });
+    script(type='text/javascript', src='/javascripts/jquery.smooth-scroll.min.js')
+    script(type='text/javascript', src='/javascripts/bootstrap.min.js')
+    script(type='text/javascript', src='/javascripts/favoritize.js')

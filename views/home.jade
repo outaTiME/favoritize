@@ -10,10 +10,11 @@
             p.lead <strong>Friendly user review</strong> platform, based on easy ratio mechanism
           .tabbable
             ul.nav.nav-tabs
+
               li.active
-                a(href="#1", data-toggle="tab") Dashboard
+                a(href="#1", data-toggle="tab") Home
               li
-                a(href="#2", data-toggle="tab") Products
+                a(href="#2", data-toggle="tab") Explore
               li.dropdown(style="float: right;")
                 a.dropdown-toggle(href="#", data-toggle="dropdown")= user.email
                   b.caret
@@ -36,7 +37,7 @@
 
                   form#search
                     div(style="margin-left: 10px;")
-                      input#keywords.input-xxlarge(type="text", placeholder="Product")
+                      input#keywords.input-xxlarge(type="text", placeholder="Search...")
                     .area
                       button.btn.btn-primary.btn-large(type="submit") Search
 
