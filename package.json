@@ -17,7 +17,8 @@
     "stylus": "0.x",
     "everyauth": "0.x",
     "aws-lib": "0.x",
-    "uglify-js-middleware": "1.x"
+    "uglify-js-middleware": "1.x",
+    "gzippo": "0.x"
   },
   "engines": {
     "node": ">=0.6.14"

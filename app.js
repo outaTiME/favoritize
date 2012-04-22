@@ -11,6 +11,7 @@ var
   express = require('express'),
   everyauth = require('everyauth'),
   routes = require('./routes'),
+  gzippo = require('gzippo'),
 
   /** Yay, out application name. */
   app_name = "Favoritize",
@@ -164,7 +165,9 @@ app.configure(function(){
   app.use(require('stylus').middleware({ src: __dirname + '/private', dest: __dirname + '/public' }));
   app.use(require('uglify-js-middleware')({ src : __dirname + '/private', dest: __dirname + '/public', uglyext: false }));
   app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
+  // app.use(express.static(__dirname + '/public'));
+  app.use(gzippo.staticGzip(__dirname + '/public'));
+  // app.use(gzippo.compress());
 });
 
 // helpers
@@ -206,10 +209,17 @@ app.post('/search', checkAuth, routes.search);
 // environment specific
 
 app.configure('development', function(){
+  // app.use(express.static(__dirname + '/public'));
+  /* var oneYear = 31557600000;
+  app.use(express.staticCache())
+  app.use(express.static(__dirname + '/public', { maxAge: oneYear })); */
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
+  /* var oneYear = 31557600000;
+  app.use(express.staticCache())
+  app.use(express.static(__dirname + '/public', { maxAge: oneYear })); */
   app.use(express.errorHandler());
 });
 
