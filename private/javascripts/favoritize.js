@@ -1,6 +1,7 @@
 
 $(function () {
 
+  // center login / sign up
   if ($("body #home").length === 0) {
     var a = $(window), c = $("#box"), d = c.closest(".container");
     c.bind("center", function() {
@@ -20,26 +21,20 @@ $(function () {
   // select first form element
   $("form :input:visible:enabled:first").focus();
 
-  // smooth scroll
-  $(window).bind('hashchange', function(event) {
-    var tgt = location.hash.replace(/^#\/?/,'');
-    console.log("Smooth scrool, for: %s", tgt);
-    if ( document.getElementById(tgt) ) {
-      $.smoothScroll({scrollTarget: '#' + tgt});
-    }
+  // login
+  $("#login form, #signup form").submit(function (e) {
+    console.debug('Login / Signup form submit event...');
+    // e.preventDefault();
+    $(":input:visible:enabled", this).attr("readonly", true); // no ajax
   });
 
-  // FIXME: [outaTiME] disable textfields from login / signup when submit
-  /* $("#search").submit(function (e) {
-    keywords.attr("disabled", true); // no ajax
-  }); */
-
   // home search
-  $("#search").submit(function (e) {
+  $("#home form").submit(function (e) {
+    console.debug('Home form submit event...');
     e.preventDefault();
     var button = $("form button"), keywords = $("#search #keywords");
     button.hide();
-    keywords.attr("disabled", true);
+    keywords.attr("readonly", true);
     $.ajax({
       type: "POST",
       url: '/search',
@@ -58,9 +53,18 @@ $(function () {
       },
       complete: function(jqXHR, textStatus) {
         button.show();
-        keywords.attr("disabled", false).focus();
+        keywords.attr("readonly", false).focus();
       }
     });
+  });
+
+  // smooth scroll
+  $(window).bind('hashchange', function(event) {
+    var tgt = location.hash.replace(/^#\/?/,'');
+    console.log("Smooth scrool, for: %s", tgt);
+    if ( document.getElementById(tgt) ) {
+      $.smoothScroll({scrollTarget: '#' + tgt});
+    }
   });
 
 });

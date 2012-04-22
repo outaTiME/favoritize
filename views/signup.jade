@@ -11,14 +11,14 @@
         #box
           #header_ct
             #logo
+          .alert.alert-info
+            strong Heads up!&nbsp;
+            | We are in development mode, registration module does not work as expected.
           - if ('' !== errorClass)
             .alert.alert-error
               //-a.close(data-dismiss="alert") x
               strong Oh snap!&nbsp;
               | #{errorMessage}
-          .alert.alert-info
-            strong Heads up!&nbsp;
-            | We are in development mode, registration module does not work as expected.
           form(action="/signup", method='POST')
             fieldset
               div
