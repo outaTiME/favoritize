@@ -11,7 +11,8 @@ var
   express = require('express'),
   everyauth = require('everyauth'),
   routes = require('./routes'),
-  gzip = require('connect-gzip'),
+  // gzip = require('connect-gzip'),
+  gzippo = require('gzippo'),
 
   /** Yay, out application name. */
   app_name = "Favoritize",
@@ -168,8 +169,8 @@ app.configure(function(){
   // app.use(express.static(__dirname + '/public'));
   // app.use(gzippo.compress());
   // app.use(express.staticCache());
-  /* app.use(gzippo.staticGzip(__dirname + '/public'));
-  app.use(connect.compress()) */
+  app.use(gzippo.staticGzip(__dirname + '/public'));
+  // app.use(connect.compress())
 });
 
 // helpers
@@ -211,13 +212,13 @@ app.post('/search', checkAuth, routes.search);
 // environment specific
 
 app.configure('development', function(){
-  app.use(gzip.staticGzip(__dirname + '/public'));
+  // app.use(gzip.staticGzip(__dirname + '/public'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
-  var oneYear = 31557600000;
-  app.use(gzip.staticGzip(__dirname + '/public', { maxAge: oneYear }));
+  /* var oneYear = 31557600000;
+  app.use(gzip.staticGzip(__dirname + '/public', { maxAge: oneYear })); */
   app.use(express.errorHandler());
 });
 
