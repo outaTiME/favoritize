@@ -44,7 +44,7 @@ exports.search = function (req, res) {
       items = result.Items.Item;
     }
     console.log('Items: %j', items);
-    res.partial("search", {
+    res.partial("partials/search", {
       items: items
     });
   });

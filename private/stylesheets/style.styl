@@ -60,6 +60,10 @@ body
     padding 18px
     .nav-tabs, .nav-pills
       padding 0 18px
+
+    .nav
+      margin-bottom 0
+
     header
       padding-bottom 40px
       #header_ct
@@ -72,6 +76,7 @@ body
           height 90px
           display block
           margin 0 auto
+
     footer
       // margin-top 300px
       border-top 1px solid #DDD
@@ -85,6 +90,19 @@ body
 
       .tab-content
 
+        section .page-header
+          text-align left
+
+          [class^="icon-"], [class*=" icon-"]
+            line-height 27px
+            margin 4px 9px 0
+
+          h1
+            font-family "Helvetica Neue",Helvetica,Arial,sans-serif
+            font-size 18px
+            font-weight 200
+            line-height 25px
+
       #search
         // text-align center
 
@@ -93,22 +111,27 @@ body
         input
           width 100%
           margin-left -10px
-          height: 25px;
-          //  font-size: 18px;
-          font-size: 18px;
-          line-height: 23px;
+          height 25px
+          //  font-size 18px
+          font-size 18px
+          line-height 23px
         .area
           height 37px
           background-image url(/images/spinner.gif)
           background-position center
           background-repeat no-repeat
           margin-bottom 18px
+
       #search-result
         text-align left
         display none
         ol
           margin-bottom 0
           padding-bottom 18px
+
+        .lead
+          font-size 18px
+          line-height 25px
 
       .dropdown-menu
         left auto
@@ -208,6 +231,12 @@ body
           #logo
             background-image url(/images/logo.home@x2.png)
             -webkit-background-size 282px 90px
+
+            /* background-image url(/images/logo.home.png)
+            width 141px
+            height 45px
+            background-size 141px 45px */
+
       .tabbable
         #search
           .area

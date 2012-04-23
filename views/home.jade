@@ -31,17 +31,29 @@
 
                 div.tab-container
 
-                  .alert.alert-info
-                    strong Heads up!&nbsp;
-                    | Best check yo self, you're not looking too good. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                  section#product_locator
+                    .page-header
+                      h1 <i class="icon-search"></i> Product locator
 
-                  form#search
-                    div(style="margin-left: 10px;")
-                      input#keywords.input-xxlarge(type="text", placeholder="Search...")
-                    .area
-                      button.btn.btn-primary.btn-large(type="submit") Search
+                    .alert.alert-info
+                      strong Heads up!&nbsp;
+                      | Best check yo self, you're not looking too good. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
 
-                  #search-result.well
+                    form#search
+                      div(style="margin-left: 10px;")
+                        input#keywords.input-xxlarge(type="text", placeholder="Search...")
+                      .area
+                        button.btn.btn-primary.btn-large(type="submit") Search
+
+                    #search-result.well
+
+                  section#create
+                    .page-header
+                      h1 <i class="icon-plus"></i> Create product
+
+                  section#view
+                    .page-header
+                      h1 <i class="icon-heart"></i> Product reviews
 
               #2.tab-pane
           footer.footer
