@@ -1,0 +1,11 @@
+
+ol
+  each item in items
+    li
+      a(href=item.DetailPageURL)= item.ItemAttributes.Title
+div(style="text-align: center; border-top: 1px solid #DDD; padding-top: 18px;")
+  // p.lead <strong>Not found</strong> what you're looking for?
+  p.lead Product you are looking for, <strong>not listed</strong>?
+  // p.lead Are you looking for a product <strong>not listed</strong>?
+
+  button.btn(type="button") Create One »
