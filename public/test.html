@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Favoritize, Sandbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <style type="text/css">
+
+
+
+
+    /* Stuff to change */
+
+      .coda-slider-wrapper { padding: 20px 0 }
+
+      /* Use this to keep the slider content contained in a box even when JavaScript is disabled */
+      .coda-slider-no-js .coda-slider { height: 200px; overflow: auto !important; padding-right: 20px }
+
+      /* Change the width of the entire slider (without dynamic arrows) */
+      .coda-slider, .coda-slider .panel { width: 560px }
+
+      /* Change margin and width of the slider (with dynamic arrows) */
+      .coda-slider-wrapper.arrows .coda-slider, .coda-slider-wrapper.arrows .coda-slider .panel { width: 560px }
+      .coda-slider-wrapper.arrows .coda-slider { margin: 0 10px }
+
+      /* Arrow styling */
+      .coda-nav-left a, .coda-nav-right a { background: #000; color: #fff; padding: 5px; width: 100px }
+
+      /* Tab nav */
+      #inner-body .coda-nav ul li a.current { background: #3399CC }
+
+      /* Panel padding */
+      .coda-slider .panel-wrapper { padding: 20px }
+
+      /* Preloader */
+      .coda-slider p.loading { padding: 20px; text-align: center }
+
+    /* Don't change anything below here unless you know what you're doing */
+
+      /* Tabbed nav */
+      #inner-body .coda-nav ul { clear: both; display: block; margin: auto; overflow: hidden }
+      #inner-body .coda-nav ul li { display: inline }
+      #inner-body .coda-nav ul li a { background: #000; color: #fff; display: block; float: left; margin-right: 1px; padding: 3px 6px; text-decoration: none }
+
+      .coda-slider-wrapper { clear: both; overflow: auto }
+      .coda-slider { float: left; overflow: hidden; position: relative }
+      .coda-slider .panel { display: block; float: left }
+      .coda-slider .panel-container { position: relative }
+      .coda-nav-left, .coda-nav-right { float: left }
+      .coda-nav-left a, .coda-nav-right a { display: block; text-align: center; text-decoration: none }
+
+    </style>
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="/assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon-57-precomposed.png">
+  </head>
+  <body>
+
+    <div class="coda-slider" id="coda-slider-1">
+      <div class="panel">
+        <div class="panel-wrapper">
+          <h2 class="title">Panel 1</h2>
+          <p>Lorem ipsum dolor sit amet...</p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-wrapper">
+          <h2 class="title">Panel 2</h2>
+          <p>Proin nec turpis eget dolor dictum lacinia...</p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-wrapper">
+          <h2 class="title">Panel 3</h2>
+          <p>Cras luctus fringilla odio vel hendrerit....</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <a class="xtrig" href="#2" rel="coda-slider-1">Panel 2</a>
+    </div>
+
+    <script type="text/javascript" src="/javascripts/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.smooth-scroll.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.coda-slider-2.0.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/favoritize.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('#coda-slider-1').codaSlider({
+          dynamicArrows: false,
+          dynamicTabs: false
+        });
+      });
+    </script>
+  </body>
+</html>
