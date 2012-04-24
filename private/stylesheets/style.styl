@@ -65,6 +65,7 @@ form
   .container
     // margin 0
   #box
+    visibility hidden // prevent reflow
     // border 1px solid #DDD
     // background-color rgba(255, 255, 255, 0.80)
     background: #FFF;
@@ -93,7 +94,7 @@ form
     footer
       // margin-top 300px
       border-top 1px solid #DDD
-      margin-top: 18px
+      // margin-top: 18px
       padding-top 18px
       text-align left
       p
@@ -102,8 +103,16 @@ form
 
     .tabbable
       .tab-content
+
+        /* .scrollable
+
+          // border 1px dotted red
+          height 224px + 18px * 2px
+          overflow hidden */
+
         section
-          margin-top 18px
+          margin 18px 0
+          // margin-bottom
           .page-header
             text-align left
             margin 0 0 18px 0

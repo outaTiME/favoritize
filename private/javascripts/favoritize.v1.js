@@ -62,7 +62,7 @@ $(function () {
       return result;
     },
 
-    reflow = function (section, animate) {
+    reflow = function (section) {
       // reset heights
       $("body #home #box section").css("height", "auto");
 
@@ -72,33 +72,32 @@ $(function () {
         hHeight = $("body #home #box header").outerHeight(),
         tHeight = $("body #home #box .nav-tabs").outerHeight(),
         fHeight = $("body #home #box footer").outerHeight(),
-        // sHeight = getMaxHeight(),
-        sHeight = $(section).outerHeight(),
+        sHeight = getMaxHeight(),
         pHeight = hHeight + tHeight + (sHeight + 18 * 2) + fHeight + (18 * 2),
-        wHeight = $(window).outerHeight(),
-        wResize = false;
+        wHeight = $(window).outerHeight();
 
-      // console.info("Max section height: %o", sHeight);
-      console.info("Current section height: %o", sHeight);
+      console.info("Max section height: %o", sHeight);
       console.info("Projected height: %s", pHeight);
       console.info("Window height: %s", wHeight);
 
-      if (wHeight > pHeight && wHeight == true) {
+      // same section height
+      // $("body #home #box section").height(sHeight);
+      // $("body #home #box .scrollable").height(sHeight + 18 * 2); // add margins
+
+      if (wHeight > pHeight) {
         var stretch = wHeight - pHeight + sHeight;
         console.info("Sections must be stretched to: %s", stretch);
-        // $("body #home #box section").height(stretch);
-        $(section).height(stretch);
-        if (animate === false) {
-          $("body #home #box .scrollable").height(stretch + 18 * 2); // add margins
-          console.info("Initial or resize, direct reflow perfomed");
-      }
+        $("body #home #box section").height(stretch);
       } else {
         console.info("No stretch for sections required!");
-        // $("body #home #box section").height(sHeight);
-        $(section).height(sHeight);
+        $("body #home #box section").height(sHeight);
       }
 
-      if (animate !== false) {
+      if ("undefined" === typeof section) {
+        // initial or resize
+        $("body #home #box .scrollable").height(sHeight + 18 * 2); // add margins
+        console.info("Initial or resize, direct reflow perfomed");
+      } else {
         // smooth resize and scroll if required
         scrollHelper(section, function () {
           console.info ("Full reflow performed");
@@ -126,18 +125,18 @@ $(function () {
         });
       });
     } else {
-      reflow("#product_locator", false);
+      reflow();
       a.resize(function(){
-        $.doTimeout('resize', 250, function () {
-          reflow(_section || "#product_locator", true);
-        });
+        $.doTimeout('resize', 250, reflow);
       });
     }
     // prevent reflow
     c.css({visibility: "visible"});
     // select first form element
     $("form :input:visible:enabled:first").focus();
+
   }());
+
 
   // login
   $("#login form, #signup form").submit(function (e) {
