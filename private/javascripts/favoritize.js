@@ -3,6 +3,22 @@ $(function () {
 
   /** Easy scroll helper to use cross app. **/
   var scrollHelper = function (element) {
+    // jquery native
+    $('html, body').animate({
+      scrollTop: $(element).offset().top - 18},
+      400,
+      'easeOutExpo'
+    );
+
+    /*
+    $.smoothScroll({
+      offset: -18,
+      scrollTarget: element,
+      speed: 600,
+      easing: 'easeOutExpo'
+    });
+*/
+    /*
     $.scrollTo(element, 600, {
       offset: {
         top: 1, // little bad calc
@@ -10,6 +26,7 @@ $(function () {
       margin: true,
       easing: "easeOutExpo"
     });
+    */
   };
 
   // center login / sign up
@@ -35,6 +52,9 @@ $(function () {
   // login
   $("#login form, #signup form").submit(function (e) {
     console.debug('Login / Signup form submit event...');
+    var area = $("form .submit"), button = $("form button");
+    // prevent iPhone issue
+    area.css({height: button.outerHeight()});
     // e.preventDefault();
     $(":input:visible:enabled", this).attr("readonly", true); // no ajax
   });
@@ -43,7 +63,9 @@ $(function () {
   $("#home form").submit(function (e) {
     console.debug('Home form submit event...');
     e.preventDefault();
-    var button = $("form button"), keywords = $("#search #keywords");
+    var area = $("form .area"), button = $("form button"), keywords = $("#search #keywords");
+    // prevent iPhone issue
+    area.css({height: button.outerHeight()});
     button.hide();
     keywords.attr("readonly", true);
     $.ajax({
@@ -63,7 +85,7 @@ $(function () {
             ($(window).outerHeight() - result.outerHeight()) + 18;
           console.log('Scroll to results, position: %i', position);
           scrollHelper(position); */
-          scrollHelper(this);
+          scrollHelper(resultId);
         });
         // window.location.hash = resultId; // smooth
         // $.smoothScroll({scrollTarget: resultId});
