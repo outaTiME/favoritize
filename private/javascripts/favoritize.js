@@ -1,6 +1,17 @@
 
 $(function () {
 
+  /** Easy scroll helper to use cross app. **/
+  var scrollHelper = function (element) {
+    $.scrollTo(element, 600, {
+      offset: {
+        top: 1, // little bad calc
+      },
+      margin: true,
+      easing: "easeOutExpo"
+    });
+  };
+
   // center login / sign up
   if ($("body #home").length === 0) {
     var a = $(window), c = $("#box"), d = c.closest(".container");
@@ -13,7 +24,7 @@ $(function () {
     }).trigger("center");
     a.resize(function() {
       c.trigger("center");
-    })
+    });
     // prevent reflow
     c.css({visibility: "visible"});
   }
@@ -47,9 +58,15 @@ $(function () {
       },
       success: function(data, textStatus, jqXHR) {
         var resultId = '#search-result';
-        $(resultId).html(data).show();
+        $(resultId).html(data).show(0, function () {
+          /* var result = $(this), position = result.offset().top -
+            ($(window).outerHeight() - result.outerHeight()) + 18;
+          console.log('Scroll to results, position: %i', position);
+          scrollHelper(position); */
+          scrollHelper(this);
+        });
         // window.location.hash = resultId; // smooth
-        $.smoothScroll({scrollTarget: resultId});
+        // $.smoothScroll({scrollTarget: resultId});
       },
       complete: function(jqXHR, textStatus) {
         button.show();
@@ -58,12 +75,18 @@ $(function () {
     });
   });
 
+  $("body").on("click", "#btn-create", function (event) {
+    console.debug('Create button click event fired...');
+    scrollHelper("#create");
+  });
+
   // smooth scroll
   $(window).bind('hashchange', function(event) {
     var tgt = location.hash.replace(/^#\/?/,'');
     console.log("Smooth scrool, for: %s", tgt);
     if ( document.getElementById(tgt) ) {
-      $.smoothScroll({scrollTarget: '#' + tgt});
+      scrollHelper('#' + tgt);
+      // $.smoothScroll({scrollTarget: '#' + tgt});
     }
   });
 

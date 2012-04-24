@@ -1,27 +1,34 @@
 body
   background url(/images/groovepaper.png) center top repeat
 
+/** Common **/
+
+form
+  margin 0
+
 /** Login / Signup **/
 
 #login, #signup
   .container
     padding 18px 0
+
   #box
     visibility hidden // prevent reflow
     padding 18px
-    background-color rgba(255, 255, 255, 0.80)
-    border 1px solid #EEE
+    // background-color rgba(255, 255, 255, 0.80)
+    background: #FFF;
+    border 1px solid #DDD
     /* border 1px solid rgba(0, 0, 0, 0.15)
     -webkit-border-radius 4px
     -moz-border-radius 4px
-    border-radius 4px */
+    border-radius 4px
     -webkit-box-shadow 0 1px 6px #bbb
     -moz-box-shadow 0 1px 6px #bbb
-    box-shadow 0 1px 6px #bbb
+    box-shadow 0 1px 6px #bbb */
     /* border-bottom 1px solid rgba(0, 0, 0, 0.18) */
     text-align center
     #header_ct
-      border-bottom 1px solid #EEE
+      border-bottom 1px solid #DDD
       margin-bottom 18px
       padding-bottom 18px
       #logo
@@ -46,6 +53,8 @@ body
         background-image url(/images/spinner.gif)
         background-position center
         background-repeat no-repeat
+    .note
+      margin-top 18px
 
 /** Home **/
 
@@ -54,9 +63,10 @@ body
     // margin 0
   #box
     // border 1px solid #DDD
-    background-color rgba(255, 255, 255, 0.80)
-    border-left 1px solid #EEE
-    border-right 1px solid #EEE
+    // background-color rgba(255, 255, 255, 0.80)
+    background: #FFF;
+    border-left 1px solid #DDD
+    border-right 1px solid #DDD
     padding 18px
     .nav-tabs, .nav-pills
       padding 0 18px
@@ -80,6 +90,7 @@ body
     footer
       // margin-top 300px
       border-top 1px solid #DDD
+      margin-top: 18px
       padding-top 18px
       text-align left
       p
@@ -87,25 +98,22 @@ body
         color #555
 
     .tabbable
-
       .tab-content
-
-        section .page-header
-          text-align left
-
-          [class^="icon-"], [class*=" icon-"]
-            line-height 27px
-            margin 3px 9px 0
-
-          h1
-            font-family "Helvetica Neue",Helvetica,Arial,sans-serif
-            font-size 18px
-            font-weight 200
-            line-height 25px
-
+        section
+          margin-top 18px
+          .page-header
+            text-align left
+            margin 0 0 18px 0
+            [class^="icon-"], [class*=" icon-"]
+              line-height 27px
+              margin 3px 9px 0
+            h1
+              font-family "Helvetica Neue",Helvetica,Arial,sans-serif
+              font-size 18px
+              font-weight 200
+              line-height 25px
       #search
         // text-align center
-
         input
           margin-bottom 18px
         input
@@ -120,9 +128,13 @@ body
           background-image url(/images/spinner.gif)
           background-position center
           background-repeat no-repeat
-          margin-bottom 18px
+          // margin-bottom 18px
+
+      .well
+        margin-bottom 0
 
       #search-result
+        margin-top 18px
         text-align left
         display none
         ol
@@ -168,6 +180,84 @@ body
         right 10px
 
       */
+
+/** Experiments **/
+
+/*
+body:before
+  content ""
+  position fixed
+  top -10px
+  left 0
+  width 100%
+  height 10px
+  -webkit-box-shadow 0px 0px 10px rgba(0,0,0,.8)
+  -moz-box-shadow 0px 0px 10px rgba(0,0,0,.8)
+  box-shadow 0px 0px 10px rgba(0,0,0,.8)
+  z-index 100
+*/
+
+.effect3
+  position relative
+
+.effect3:before, .effect3:after
+  z-index  -1
+  position absolute
+  content ""
+  bottom 15px
+  left 10px
+  width 50%
+  // top 80%
+  top 90%
+  max-width 300px
+  background #777
+  -webkit-box-shadow 0 15px 10px #777
+  -moz-box-shadow 0 15px 10px #777
+  box-shadow 0 15px 10px #777
+  -webkit-transform rotate(-3deg)
+  -moz-transform rotate(-3deg)
+  -o-transform rotate(-3deg)
+  -ms-transform rotate(-3deg)
+  transform rotate(-3deg)
+
+.effect3:after
+  -webkit-transform rotate(3deg)
+  -moz-transform rotate(3deg)
+  -o-transform rotate(3deg)
+  -ms-transform rotate(3deg)
+  transform rotate(3deg)
+  right 10px
+  left auto
+
+
+.effect6
+  position relative
+  -webkit-box-shadow 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset
+  -moz-box-shadow 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset
+  box-shadow 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset
+
+.effect6:before, .effect6:after
+  content ""
+  position absolute
+  z-index -1
+  -webkit-box-shadow 0 0 20px rgba(0,0,0,0.8)
+  -moz-box-shadow 0 0 20px rgba(0,0,0,0.8)
+  box-shadow 0 0 20px rgba(0,0,0,0.8)
+  top 50%
+  bottom 0
+  left 10px
+  right 10px
+  -moz-border-radius 100px / 10px
+  border-radius 100px / 10px
+
+.effect6:after
+  right 10px
+  left auto
+  -webkit-transform skew(8deg) rotate(3deg)
+  -moz-transform skew(8deg) rotate(3deg)
+  -ms-transform skew(8deg) rotate(3deg)
+  -o-transform skew(8deg) rotate(3deg)
+  transform skew(8deg) rotate(3deg)
 
 /** High density rules **/
 

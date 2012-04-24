@@ -8,7 +8,7 @@
   .container
     .row
       .span4.offset4
-        #box
+        #box.effect3
           #header_ct
             #logo
           .alert.alert-info
@@ -36,6 +36,6 @@
                     input.input-xlarge#password(name="password_confirm", type="password", placeholder="Confirm Password")
             .submit
               button.btn.btn-primary(type="submit", onclick="$(this).hide();") Register
-          div
+          .note
             | Already have an account?&nbsp;
             a(href="/login") Log in

@@ -8,7 +8,7 @@
   .container
     .row
       .span4.offset4
-        #box
+        #box.effect3
           #header_ct
             #logo
           - if ('' !== errorClass)
@@ -27,7 +27,7 @@
                     input.input-xlarge#password(name=everyauth.password.passwordFormFieldName, type="password", placeholder="Password", value=passwordFormFieldValue)
             .submit
               button.btn.btn-primary(type="submit", onclick="$(this).hide();") Sign In
-          div
+          .note
             a.disabled(href="#") Forgot your password?
             | &nbsp;·&nbsp;Need an account?&nbsp;
             a(href="/signup") Sign up
