@@ -71,7 +71,7 @@ form
     background: #FFF;
     border-left 1px solid #DDD
     border-right 1px solid #DDD
-    padding 18px
+    padding 0 18px
     .nav-tabs, .nav-pills
       padding 0 18px
 
@@ -79,7 +79,9 @@ form
       margin-bottom 0
 
     header
-      padding-bottom 40px
+      // padding-bottom 40px
+      padding-bottom 32px
+
       #header_ct
         padding  18px 0
         #logo
@@ -95,14 +97,24 @@ form
       // margin-top 300px
       border-top 1px solid #DDD
       // margin-top: 18px
-      padding-top 18px
+      padding 18px 0
       text-align left
       p
         margin-bottom 0
         color #555
 
     .tabbable
+
+      .test-fixed
+
+        position fixed
+        top 0
+        background-color #fff
+        margin 0 18px
+
       .tab-content
+
+        margin-top 240px
 
         /* .scrollable
 
@@ -124,6 +136,9 @@ form
               font-size 18px
               font-weight 200
               line-height 25px
+          button
+            width 100px
+
       #search
         // text-align center
         input
@@ -156,6 +171,9 @@ form
         .lead
           font-size 18px
           line-height 25px
+
+        #btn-create
+          margin-left 18px
 
       .dropdown-menu
         left auto

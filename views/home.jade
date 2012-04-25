@@ -4,34 +4,38 @@
     .row
       .span8.offset2
         #box
-          header#overview.jumbotron.subhead
-            #header_ct
-              #logo
-            p.lead <strong>Friendly user review</strong> platform, based on easy ratio mechanism
           .tabbable
-            ul.nav.nav-tabs
 
-              li.active
-                a(href="#1", data-toggle="tab") Home
-              li
-                a(href="#2", data-toggle="tab") Explore
-              li.dropdown(style="float: right;")
-                a.dropdown-toggle(href="#", data-toggle="dropdown")= user.email
-                  b.caret
-                ul.dropdown-menu
-                  li
-                    a(href="#") Profile
-                  li
-                    a(href="#") Account Settings
-                  li.divider
-                  li
-                    a(href="/logout") Sign Out
+            .test-fixed
+
+              header#overview.jumbotron.subhead
+                #header_ct
+                  #logo
+                p.lead <strong>Friendly user review</strong> platform, based on easy ratio mechanism
+
+              ul.nav.nav-tabs
+
+                li.active
+                  a(href="#1", data-toggle="tab") Home
+                li
+                  a(href="#2", data-toggle="tab") Explore
+                li.dropdown(style="float: right;")
+                  a.dropdown-toggle(href="#", data-toggle="dropdown")= user.email
+                    b.caret
+                  ul.dropdown-menu
+                    li
+                      a(href="#") Profile
+                    li
+                      a(href="#") Account Settings
+                    li.divider
+                    li
+                      a(href="/logout") Sign Out
+
+
             .tab-content
               #1.tab-pane.active
 
                 div.tab-container
-
-                  div.scrollable
 
                   section#product_locator
                     .page-header
@@ -74,6 +78,18 @@
                     button#btn-cancel.btn.btn-danger(type="button", style="margin-left: 18px;") Cancel
 
               #2.tab-pane
+
+                div.tab-container
+
+                  section#explore
+                    .page-header
+                      h1 <i class="icon-eye-open"></i> Gallore
+
+                    .alert.alert-error
+                      strong Oh snap!&nbsp;
+                      | Test feature is coming soon, you're not looking too good. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+
+
           footer.footer
             //
               p.pull-right

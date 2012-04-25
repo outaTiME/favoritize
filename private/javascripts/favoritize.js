@@ -1,3 +1,7 @@
+/*!
+* Favoritize.js by outaTiME
+* Copyright 2012 Favoritize, Inc.
+*/
 
 $(function () {
 
@@ -7,103 +11,78 @@ $(function () {
     /** Current section anchor point. **/
     _section,
 
-    getSectionHeight = function (section) {
-      return $(section).outerHeight() + 18 * 2; // with margins
-    },
-
     /** Easy scroll helper to use cross app. **/
     scrollHelper = function (section, callback) {
       section = section || _section || "#product_locator";
       // first time, not relocate
       $("html,body").animate(
         {
-          scrollTop: $('.scrollable').offset().top
-        },
-        400,
-        'easeOutExpo'
-      );​
-      // niiiiceeee scroll
-      var container = $('.scrollable'), scrollTo = $(section);
-      container.animate(
-        {
-          scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - 18,
-          height: getSectionHeight(section)
+          scrollTop: $(section).offset().top - $(".test-fixed").height() - 18
         },
         400,
         'easeOutExpo',
-        callback || function () {}
-      );​
+        callback || $.noop
+      );
       // store displacement
       _section = section;
     },
 
-    /* reflow = function (section, callback) {
-      console.log('Reflow for: %s', section);
-      var container = $('.scrollable');
-      container.animate(
-        {
-          height: getSectionHeight(section)
-        },
-        400,
-        'easeOutExpo',
-        callback || function() {}
-      );
-    }, */
+    reflow = function (callback) {
 
-    /** Get max height from sections. **/
-    getMaxHeight = function () {
-      var result = 0;
-      $("body #home #box section").each(function(index, value) {
-        var height = $(value).outerHeight();
-        if (height > result) {
-          result = height;
-        }
-      });
-      return result;
-    },
+      callback = callback || $.noop;
 
-    reflow = function (section, animate) {
-      // reset heights
-      $("body #home #box section").css("height", "auto");
-
-      console.info("Reflow over %i sections", $("body #home #box section").length);
+      // reflow fixed header
 
       var
-        hHeight = $("body #home #box header").outerHeight(),
-        tHeight = $("body #home #box .nav-tabs").outerHeight(),
-        fHeight = $("body #home #box footer").outerHeight(),
-        // sHeight = getMaxHeight(),
-        sHeight = $(section).outerHeight(),
-        pHeight = hHeight + tHeight + (sHeight + 18 * 2) + fHeight + (18 * 2),
+        box = $("body #home #box"),
+        hPos = box.position(),
+        hWidth = box.width(),
+        fixed = $(".test-fixed", box),
+        content = $(".tab-content", box);
+
+      fixed.css({
+        left: hPos.left + 1, // little pixel
+        width: hWidth // no margins
+      });
+
+      content.css({
+        marginTop: fixed.height()
+      });
+
+      // reflow "workeable" area
+
+      var
+        hHeight = $("header", box).outerHeight(),
+        tHeight = $(".nav-tabs", box).outerHeight(),
+        sections = $(".tab-pane.active section", box),
+        sections_count = sections.length,
         wHeight = $(window).outerHeight(),
+        pHeight = wHeight - hHeight - tHeight, // page size
         wResize = false;
 
-      // console.info("Max section height: %o", sHeight);
-      console.info("Current section height: %o", sHeight);
-      console.info("Projected height: %s", pHeight);
-      console.info("Window height: %s", wHeight);
+      // console.info("Section count: %i", sections_count);
 
-      if (wHeight > pHeight && wHeight == true) {
-        var stretch = wHeight - pHeight + sHeight;
-        console.info("Sections must be stretched to: %s", stretch);
-        // $("body #home #box section").height(stretch);
-        $(section).height(stretch);
-        if (animate === false) {
-          $("body #home #box .scrollable").height(stretch + 18 * 2); // add margins
-          console.info("Initial or resize, direct reflow perfomed");
-      }
-      } else {
-        console.info("No stretch for sections required!");
-        // $("body #home #box section").height(sHeight);
-        $(section).height(sHeight);
-      }
+      // reset heights
+      sections.css("height", "auto");
 
-      if (animate !== false) {
-        // smooth resize and scroll if required
-        scrollHelper(section, function () {
-          console.info ("Full reflow performed");
-        });
-      }
+      // modify sections
+      sections.each(function(index, value) {
+        if (index < sections_count - 1) {
+          var sHeight = $(value).outerHeight(), pages = Math.ceil(sHeight / pHeight);
+          /* console.log("Section: %s (%i), height: %i, separator space was: %i",
+            $(value).attr("id"),
+            index,
+            sHeight,
+            sHeight + pHeight); */
+          $(value).css("height", sHeight + pHeight);
+        } else {
+          // console.log('Section: %s (%i), not resize required', $(value).attr("id"), index);
+        }
+      });
+
+      // execute callback
+
+      callback();
 
     };
 
@@ -126,17 +105,15 @@ $(function () {
         });
       });
     } else {
-      reflow("#product_locator", false);
+      reflow();
       a.resize(function(){
-        $.doTimeout('resize', 250, function () {
-          reflow(_section || "#product_locator", true);
-        });
+        $.doTimeout('resize', 250, reflow);
       });
     }
     // prevent reflow
     c.css({visibility: "visible"});
     // select first form element
-    $("form :input:visible:enabled:first").focus();
+    $("form :input:visible:enabled:first").select().focus();
   }());
 
   // login
@@ -175,7 +152,11 @@ $(function () {
             ($(window).outerHeight() - result.outerHeight()) + 18;
           console.log('Scroll to results, position: %i', position);
           scrollHelper(position); */
-          reflow("#product_locator");
+          reflow(function () {
+            scrollHelper(resultId, function () {
+              $(resultId).focus();
+            });
+          });
         });
         // window.location.hash = resultId; // smooth
         // $.smoothScroll({scrollTarget: resultId});
@@ -187,9 +168,13 @@ $(function () {
     });
   });
 
-  $("body").on("click", "#btn-cancel", function (event) {
+  // buttons
+
+  $("body").on("click", "#btn-cancel,#btn-try", function (event) {
     // console.debug('Cancel button click event fired...');
-    scrollHelper("#product_locator");
+    scrollHelper("#product_locator", function () {
+      $("#search #keywords").select().focus();
+    });
   });
 
   $("body").on("click", "#btn-create", function (event) {
@@ -200,6 +185,12 @@ $(function () {
   $("body").on("click", "#btn-review", function (event) {
     // console.debug('Review button click event fired...');
     scrollHelper("#review");
+  });
+
+  $("body").on("click", ".nav-tabs a[data-toggle='tab']", function (event) {
+    reflow(); // prevent resize issues
+    // select first form element
+    $("form :input:visible:enabled:first").select().focus();
   });
 
   // smooth scroll
