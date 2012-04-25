@@ -67,7 +67,7 @@ $(function () {
 
       // modify sections
       sections.each(function(index, value) {
-        if (index < sections_count - 1) {
+        // if (index < sections_count - 1) {
           var sHeight = $(value).outerHeight(), pages = Math.ceil(sHeight / pHeight);
           /* console.log("Section: %s (%i), height: %i, separator space was: %i",
             $(value).attr("id"),
@@ -75,9 +75,9 @@ $(function () {
             sHeight,
             sHeight + pHeight); */
           $(value).css("height", sHeight + pHeight);
-        } else {
+        /* } else {
           // console.log('Section: %s (%i), not resize required', $(value).attr("id"), index);
-        }
+        } */
       });
 
       // execute callback
