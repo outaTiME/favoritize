@@ -53,6 +53,7 @@ $(function () {
 
       var
         hHeight = $("header", box).outerHeight(),
+        fHeight = $("footer", box).outerHeight(),
         tHeight = $(".nav-tabs", box).outerHeight(),
         sections = $(".tab-pane.active section", box),
         sections_count = sections.length,
@@ -67,17 +68,21 @@ $(function () {
 
       // modify sections
       sections.each(function(index, value) {
-        // if (index < sections_count - 1) {
-          var sHeight = $(value).outerHeight(), pages = Math.ceil(sHeight / pHeight);
+        var sHeight = $(value).outerHeight(), pages = Math.ceil(sHeight / pHeight);
+        if (index < sections_count - 1) {
           /* console.log("Section: %s (%i), height: %i, separator space was: %i",
             $(value).attr("id"),
             index,
             sHeight,
             sHeight + pHeight); */
           $(value).css("height", sHeight + pHeight);
-        /* } else {
-          // console.log('Section: %s (%i), not resize required', $(value).attr("id"), index);
-        } */
+        } else {
+          var finalHeight = pHeight - (fHeight + 18 * 2);
+          if (sHeight <= finalHeight) {
+            // console.log('Section: %s (%i), not resize required', $(value).attr("id"), index);
+            $(value).css("height", pHeight - (fHeight + 18 * 2));
+          }
+        }
       });
 
       // execute callback
@@ -107,7 +112,9 @@ $(function () {
     } else {
       reflow();
       a.resize(function(){
-        $.doTimeout('resize', 250, reflow);
+        $.doTimeout('resize', 250, function () {
+          reflow(scrollHelper);
+        });
       });
     }
     // prevent reflow
@@ -188,9 +195,20 @@ $(function () {
   });
 
   $("body").on("click", ".nav-tabs a[data-toggle='tab']", function (event) {
-    reflow(); // prevent resize issues
-    // select first form element
-    $("form :input:visible:enabled:first").select().focus();
+    var index = $(this).attr("href");
+    if (index === "#1") {
+      // back to top
+      reflow(function () {
+        scrollHelper("#product_locator");
+      });
+      // select first form element
+      $("form :input:visible:enabled:first").select().focus();
+    } else {
+      // back to top
+      reflow(function () {
+        scrollHelper("#explore");
+      });
+    }
   });
 
   // smooth scroll
