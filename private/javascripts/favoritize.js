@@ -41,12 +41,12 @@ $(function () {
         content = $(".tab-content", box);
 
       fixed.css({
-        left: hPos.left + 1, // little pixel
+        left: hPos.left + 1 - 9, // little pixel
         width: hWidth // no margins
       });
 
       content.css({
-        marginTop: fixed.height()
+        marginTop: fixed.height() + 18
       });
 
       // reflow "workeable" area

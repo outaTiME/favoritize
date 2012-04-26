@@ -46,8 +46,11 @@
                       | Best check yo self, you're not looking too good. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
 
                     form#search
-                      div(style="margin-left: 10px;")
-                        input#keywords.input-xxlarge(type="text", placeholder="Search...")
+                      fieldset
+                        .control-group
+                          .controls
+                            div(style="margin-left: 10px;")
+                              input#keywords.input-xxlarge(type="text", placeholder="Search...")
                       .area
                         button.btn.btn-primary.btn-large(type="submit") Search
 
