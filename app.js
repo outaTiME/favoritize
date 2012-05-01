@@ -13,9 +13,16 @@ var
   routes = require('./routes'),
   // gzip = require('connect-gzip'),
   gzippo = require('gzippo'),
+  jade = require('jade'),
+  path = require('path'),
+  util = require('util'),
+  mailer = require('mailer'),
 
   /** Yay, out application name. */
   app_name = "Favoritize",
+
+  /** Default email sender. **/
+  email_sender = "hello@favoritize.com",
 
   /** Default login field value. **/
   login_value = "afalduto@gmail.com",
@@ -38,8 +45,8 @@ var
   getApiClient = function (login, password) {
     // create new client for each request (statefull)
     var client = restify.createJsonClient({
-      url: getEnvironmentValue("http://localhost:3000", "http://api.favoritize.com"),
-      // url: "http://api.favoritize.com",
+      // url: getEnvironmentValue("http://localhost:3000", "http://api.favoritize.com"),
+      url: "http://api.favoritize.com",
       version: '0.1.0'
     });
     if (arguments.length > 0) { // with auth ?
@@ -56,6 +63,55 @@ var
       req.session.redirect_to = req.url;
       res.redirect("/login");
     }
+  },
+
+  // email helper
+
+  emails = {
+
+    /** Send basic email. **/
+    send: function(template, mailOptions, templateOptions) {
+      jade.renderFile(path.join(__dirname, 'views', 'mailer', template), templateOptions, function(err, text) {
+        if (!err) {
+          // add the rendered Jade template to the mailOptions
+          mailOptions.body = text;
+          // merge the app's mail options
+          var keys = Object.keys(app.set('mailOptions')), k;
+          for (var i = 0, len = keys.length; i < len; i++) {
+            k = keys[i];
+            if (!mailOptions.hasOwnProperty(k)) {
+              mailOptions[k] = app.set('mailOptions')[k]
+            }
+          }
+          console.log('[SENDING MAIL]', util.inspect(mailOptions));
+          // Only send mails in production
+          if (app.settings.env === 'production') {
+            mailer.send(mailOptions, function(err, result) {
+              if (err) {
+                console.log(err);
+              }
+            });
+          }
+        } else {
+          console.log(err);
+        }
+      });
+    },
+
+    /** Send welcome mail. **/
+    sendWelcome: function(user) {
+      this.send(
+        'welcome.jade',
+        {
+          to: user.email,
+          subject: 'Welcome to Favoritize!'
+        },
+        {
+          user: user
+        }
+      );
+    }
+
   },
 
   // server
@@ -131,6 +187,7 @@ everyauth.password
         return promise.fulfill([err.message]);
       }
       console.log("User created. Data: %j", data);
+      emails.sendWelcome(data);
       promise.fulfill(data);
     });
     return promise;
@@ -214,12 +271,28 @@ app.post('/search', checkAuth, routes.search);
 app.configure('development', function(){
   // app.use(gzip.staticGzip(__dirname + '/public'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  // email rules
+  app.set('mailOptions', { // stubSMTP
+    host: 'localhost',
+    port: '1025',
+    from: email_sender
+  });
 });
 
 app.configure('production', function(){
   /* var oneYear = 31557600000;
   app.use(gzip.staticGzip(__dirname + '/public', { maxAge: oneYear })); */
   app.use(express.errorHandler());
+  // email rules
+  app.set('mailOptions', {
+    host: 'smtp.sendgrid.net',
+    port: '587',
+    authentication: 'plain',
+    username: process.env.SENDGRID_USERNAME,
+    password: process.env.SENDGRID_PASSWORD,
+    domain: 'heroku.com',
+    from: email_sender
+  });
 });
 
 // launcher
