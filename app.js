@@ -71,43 +71,38 @@ var
 
     /** Send basic email. **/
     send: function(template, mailOptions, templateOptions) {
-      jade.renderFile(path.join(__dirname, 'views', 'mailer', template), templateOptions, function(err, text) {
-        if (!err) {
-          // add the rendered Jade template to the mailOptions
-          mailOptions.body = text;
-          // merge the app's mail options
-          var keys = Object.keys(app.set('mailOptions')), k;
-          for (var i = 0, len = keys.length; i < len; i++) {
-            k = keys[i];
-            if (!mailOptions.hasOwnProperty(k)) {
-              mailOptions[k] = app.set('mailOptions')[k]
-            }
-          }
-          console.log('[SENDING MAIL]', util.inspect(mailOptions));
-          // Only send mails in production
-          if (app.settings.env === 'production') {
-            mailer.send(mailOptions, function(err, result) {
-              if (err) {
-                console.log(err);
-              }
-            });
-          }
-        } else {
-          console.log(err);
+      // merge the app's mail options
+      var keys = Object.keys(app.set('mailOptions')), k;
+      for (var i = 0, len = keys.length; i < len; i++) {
+        k = keys[i];
+        if (!mailOptions.hasOwnProperty(k)) {
+          mailOptions[k] = app.set('mailOptions')[k]
         }
-      });
+      }
+      mailOptions.template = path.join(__dirname, 'mails', template)
+      mailOptions.data = templateOptions || {};
+      console.log('[SENDING MAIL]', util.inspect(mailOptions));
+      // Only send mails in production
+      if (app.settings.env === 'production') {
+        mailer.send(mailOptions, function(err, result) {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
     },
 
     /** Send welcome mail. **/
     sendWelcome: function(user) {
       this.send(
-        'welcome.jade',
+        'welcome.txt',
         {
           to: user.email,
-          subject: 'Welcome to Favoritize!'
+          subject: 'Welcome to ' + app_name +'!'
         },
         {
-          user: user
+          user: user,
+          app_name: app_name
         }
       );
     }
