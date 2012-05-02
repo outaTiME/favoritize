@@ -1,5 +1,5 @@
-| Dear @{{user.email}}
+Dear {{user.email}}
 
-Welcome to @{{app_name}}!
+Welcome to {{app_name}}!
 
 Best regards,
