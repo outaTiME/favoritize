@@ -13,8 +13,9 @@ var
   routes = require('./routes'),
   // gzip = require('connect-gzip'),
   gzippo = require('gzippo'),
-  jade = require('jade'),
   path = require('path'),
+  fs = require('fs'),
+  hogan = require('hogan.js'),
   util = require('util'),
   mailer = require('mailer'),
 
@@ -71,10 +72,10 @@ var
 
     /** Send basic email. **/
     send: function(template, mailOptions, templateOptions) {
-      jade.renderFile(path.join(__dirname, 'mails', template), templateOptions, function(err, text) {
+      fs.readFile(path.join(__dirname, 'mails', template), "utf-8", function (err, text) {
         if (!err) {
           // add the rendered Jade template to the mailOptions
-          mailOptions.body = text;
+          mailOptions.body = hogan.compile(text).render(templateOptions);
           // merge the app's mail options
           var keys = Object.keys(app.set('mailOptions')), k;
           for (var i = 0, len = keys.length; i < len; i++) {
@@ -101,7 +102,7 @@ var
     /** Send welcome mail. **/
     sendWelcome: function(user) {
       this.send(
-        'welcome.jade',
+        'welcome.hogan',
         {
           to: user.email,
           subject: 'Welcome to ' + app_name + '!'
