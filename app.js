@@ -32,7 +32,7 @@ var
   password_value = "ebd6f534736fed7c475d9c175abd024e",
 
   /** Invitation code, only available in development mode. **/
-  invitation_code = "1515d5b65c8b446d6c152395d7d484bc",
+  invitation_code = "5075c9303b2606feaa8a4266bb1e35a0",
 
   /** Get value only if running app in development mode, if not return empty (used by helpers). **/
   getEnvironmentValue = function(value, empty) {
@@ -46,8 +46,8 @@ var
   getApiClient = function (login, password) {
     // create new client for each request (statefull)
     var client = restify.createJsonClient({
-      // url: getEnvironmentValue("http://localhost:3000", "http://api.favoritize.com"),
-      url: "http://api.favoritize.com",
+      url: getEnvironmentValue("http://localhost:3000", "http://api.favoritize.com"),
+      // url: "http://api.favoritize.com",
       version: '0.1.0'
     });
     if (arguments.length > 0) { // with auth ?
