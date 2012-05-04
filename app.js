@@ -13,17 +13,9 @@ var
   routes = require('./routes'),
   // gzip = require('connect-gzip'),
   gzippo = require('gzippo'),
-  path = require('path'),
-  fs = require('fs'),
-  hogan = require('hogan.js'),
-  util = require('util'),
-  mailer = require('mailer'),
 
   /** Yay, out application name. */
   app_name = "Favoritize",
-
-  /** Default email sender. **/
-  email_sender = "hello@favoritize.com",
 
   /** Default login field value. **/
   login_value = "afalduto@gmail.com",
@@ -64,57 +56,7 @@ var
       req.session.redirect_to = req.url;
       res.redirect("/login");
     }
-  },
-
-  // email helper
-
-  emails = {
-
-    /** Send basic email. **/
-    send: function(template, mailOptions, templateOptions) {
-      fs.readFile(path.join(__dirname, 'mails', template), "utf-8", function (err, text) {
-        if (!err) {
-          // add the rendered Jade template to the mailOptions
-          mailOptions.body = hogan.compile(text).render(templateOptions);
-          // merge the app's mail options
-          var keys = Object.keys(app.set('mailOptions')), k;
-          for (var i = 0, len = keys.length; i < len; i++) {
-            k = keys[i];
-            if (!mailOptions.hasOwnProperty(k)) {
-              mailOptions[k] = app.set('mailOptions')[k]
-            }
-          }
-          console.log('[SENDING MAIL]', util.inspect(mailOptions));
-          // Only send mails in production
-          if (app.settings.env === 'production') {
-            mailer.send(mailOptions, function(err, result) {
-              if (err) {
-                console.log(err);
-              }
-            });
-          }
-        } else {
-          console.log(err);
-        }
-      });
-    },
-
-    /** Send welcome mail. **/
-    sendWelcome: function(user) {
-      this.send(
-        'welcome.hogan',
-        {
-          to: user.email,
-          subject: 'Welcome to ' + app_name + '!'
-        },
-        {
-          user: user,
-          app_name: app_name
-        }
-      );
-    }
-
-  },
+  };
 
   // server
 
@@ -189,7 +131,6 @@ everyauth.password
         return promise.fulfill([err.message]);
       }
       console.log("User created. Data: %j", data);
-      emails.sendWelcome(data);
       promise.fulfill(data);
     });
     return promise;
@@ -273,28 +214,12 @@ app.post('/search', checkAuth, routes.search);
 app.configure('development', function(){
   // app.use(gzip.staticGzip(__dirname + '/public'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  // email rules
-  app.set('mailOptions', { // stubSMTP
-    host: 'localhost',
-    port: '1025',
-    from: email_sender
-  });
 });
 
 app.configure('production', function(){
   /* var oneYear = 31557600000;
   app.use(gzip.staticGzip(__dirname + '/public', { maxAge: oneYear })); */
   app.use(express.errorHandler());
-  // email rules
-  app.set('mailOptions', {
-    host: 'smtp.sendgrid.net',
-    port: '587',
-    authentication: 'plain',
-    username: process.env.SENDGRID_USERNAME,
-    password: process.env.SENDGRID_PASSWORD,
-    domain: 'heroku.com',
-    from: email_sender
-  });
 });
 
 // launcher

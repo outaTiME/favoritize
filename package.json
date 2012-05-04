@@ -18,9 +18,7 @@
     "everyauth": "0.x",
     "aws-lib": "0.x",
     "uglify-js-middleware": "1.x",
-    "gzippo": "0.x",
-    "mailer": "0.x",
-    "hogan.js": "2.x"
+    "gzippo": "0.x"
   },
   "engines": {
     "node": ">=0.6.14"
