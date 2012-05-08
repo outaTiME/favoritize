@@ -2,6 +2,8 @@
 
 Yay, im a friendly user review platform, based on easy ratio mechanism.
 
+[![Build Status](https://secure.travis-ci.org/outaTiME/favoritize.png)](http://travis-ci.org/outaTiME/favoritize)
+
 ## Install
 
 Using npm:

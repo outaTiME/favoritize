@@ -10,6 +10,9 @@
     "url": "http://github.com/outaTiME/favoritize.git"
   },
   "main": "app",
+  "scripts": {
+    "test": "mocha test/*.js"
+  },
   "dependencies": {
     "restify": "1.x",
     "express": "2.x",
@@ -19,6 +22,10 @@
     "aws-lib": "0.x",
     "uglify-js-middleware": "1.x",
     "gzippo": "0.x"
+  },
+  "devDependencies": {
+    "mocha": "",
+    "should": ""
   },
   "engines": {
     "node": ">=0.6.14"
