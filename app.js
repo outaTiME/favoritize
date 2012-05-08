@@ -13,6 +13,7 @@ var
   routes = require('./routes'),
   // gzip = require('connect-gzip'),
   gzippo = require('gzippo'),
+  module = require('package'),
 
   /** Yay, out application name. */
   app_name = "Favoritize",
